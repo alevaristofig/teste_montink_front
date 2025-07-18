@@ -16,7 +16,7 @@ export const produtoSlice = createSlice({
             state.loading = true;
             state.produtos = action.payload;
         },
-        listarErro: (state,action) => {
+        listarErro: (state) => {
             state.loading = true;
             
         }

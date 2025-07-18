@@ -19,4 +19,6 @@ function* listar() {
     }
 }
 
-export default all([]);
+export default all([
+     takeEvery('produto/listar', listar),
+]);

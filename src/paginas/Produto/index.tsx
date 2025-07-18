@@ -1,10 +1,21 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+
+import { listar } from "../../redux/produto/slice";
+
 import Cabecalho from "../../components/Cabecalho";
 import Menu from "../../components/Menu";
 
 const Produto = (): ReactElement => {
 
-    const [loading,setLoading] = useState<boolean>(true);
+    const dispatch = useDispatch();
+    const { loading } = useSelector((rootReducer) => rootReducer.produto);
+
+    //const [loading,setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+         dispatch(listar());
+    })
 
     return (
         <>
