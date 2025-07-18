@@ -1,10 +1,12 @@
 import React from 'react';
-import './App.css';
+import { router } from './routes';
+import { RouterProvider } from 'react-router-dom';
 
 function App() {
-  return (
-    <div>Sistema</div>
-  );
+  return(
+    <RouterProvider router={router} />
+  )
+  
 }
 
 export default App;
