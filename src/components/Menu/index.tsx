@@ -2,6 +2,8 @@ import { ReactElement } from "react";
 import { NavLink } from 'react-router-dom';
 import { FcPaid } from "react-icons/fc";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const Menu = (): ReactElement => {
 
     const IconeProduto = FcPaid as unknown as React.FC<React.SVGProps<SVGSVGElement>>;  

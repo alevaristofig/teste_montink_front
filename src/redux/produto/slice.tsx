@@ -13,11 +13,11 @@ export const produtoSlice = createSlice({
             state.loading = true;
         },
         listarSucesso: (state,action) => {
-            state.loading = true;
+            state.loading = false;
             state.produtos = action.payload;
         },
         listarErro: (state) => {
-            state.loading = true;
+            state.loading = false;
             
         }
     }
