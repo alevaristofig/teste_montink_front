@@ -1,6 +1,6 @@
 import { all, takeEvery, put, call } from "redux-saga/effects";
 
-import { listarSucesso, listarErro } from "./slice";
+import { listarSucesso, listarErro, salvarSucesso, salvarError } from "./slice";
 
 import { IProduto } from "../../interfaces/produto/produto.interface";
 
@@ -22,6 +22,15 @@ function* listar(): Generator<any, void, AxiosResponse<IProduto[]>>  {
     }
 }
 
+function* salvar(action: ReturnType<typeof IProduto>) {
+  try {
+
+  } catch(error) {
+
+  }
+}
+
 export default all([
      takeEvery('produto/listar', listar),
+     takeEvery('produto/salvar', salvar),
 ]);

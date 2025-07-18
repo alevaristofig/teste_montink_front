@@ -17,12 +17,20 @@ export const produtoSlice = createSlice({
             state.produtos = action.payload;
         },
         listarErro: (state) => {
+            state.loading = false;            
+        },
+        salvar: (state,action) => {
+            state.loading = true;
+        },
+        salvarSucesso: (state) => {
             state.loading = false;
-            
+        },
+        salvarError: (state) => {
+            state.loading = false;
         }
     }
 });
 
-export const { listar, listarSucesso, listarErro } = produtoSlice.actions;
+export const { listar, listarSucesso, listarErro, salvar, salvarSucesso, salvarError } = produtoSlice.actions;
 
 export default produtoSlice.reducer;
