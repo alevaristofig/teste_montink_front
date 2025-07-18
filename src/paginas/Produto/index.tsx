@@ -39,7 +39,7 @@ const Produto = (): ReactElement => {
                 <Menu />
                 <div className="container-fluid">
                         <div className='me-2 float-start'>
-                            <Button href='/cadastproduto' className='me-2 float-start'>Novo Produto</Button>
+                            <Button href='/cadastroproduto' className='me-2 float-start'>Novo Produto</Button>
                         </div>
                         {
                             loading
