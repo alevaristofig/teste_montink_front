@@ -12,6 +12,12 @@ code {
     monospace;
 }
 
+.menu_superior{
+  border-bottom: solid 1px #ccc;
+  border-radius: 19px;
+  margin-bottom: 3px;
+}
+
 .menu_esquerdo{  
   width: 450px;
   margin-right: 2px;

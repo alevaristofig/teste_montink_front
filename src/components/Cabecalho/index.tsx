@@ -3,8 +3,7 @@ import React, { ReactElement } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 
-export default function CabecalhoComponent (): ReactElement {
-
+const Cabecalho = (): ReactElement => {
     return (
         <>
             <Navbar bg='primary' className='menu_superior'>
@@ -15,3 +14,5 @@ export default function CabecalhoComponent (): ReactElement {
         </>
     )
 }
+
+export default Cabecalho; 
