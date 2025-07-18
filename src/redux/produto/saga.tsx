@@ -2,9 +2,12 @@ import { all, takeEvery, put, call } from "redux-saga/effects";
 
 import { listarSucesso, listarErro } from "./slice";
 
-import axios from "axios";
+import { IProduto } from "../../interfaces/produto/produto.interface";
 
-function* listar() {
+import axios from "axios";
+import { AxiosResponse } from 'axios';
+
+function* listar(): Generator<any, void, AxiosResponse<IProduto[]>>  {
     try {
 
          let response = yield call(axios.get,`http://localhost:8000/api/erp_gerenciamento/produto`,{

@@ -2,6 +2,7 @@ import { ReactElement, useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { listar } from "../../redux/produto/slice";
+import { RootState } from "../../redux/root-reducer";
 
 import Cabecalho from "../../components/Cabecalho";
 import Menu from "../../components/Menu";
@@ -9,7 +10,7 @@ import Menu from "../../components/Menu";
 const Produto = (): ReactElement => {
 
     const dispatch = useDispatch();
-    const { loading } = useSelector((rootReducer) => rootReducer.produto);
+    const { loading } = useSelector((state: RootState) => state.produto);
 
     //const [loading,setLoading] = useState<boolean>(true);
 
