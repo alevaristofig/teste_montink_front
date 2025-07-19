@@ -1,7 +1,7 @@
 import { all, takeEvery, put, call } from "redux-saga/effects";
 
 import { listarSucesso, listarErro, salvarSucesso, salvarError, deletarSucesso,
-         deletarError
+         deletarError, atualizarSucesso, atualizarError
        } from "./slice";
 
 import { IProduto } from "../../interfaces/produto/produto.interface";
@@ -35,6 +35,20 @@ function* salvar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto
         yield put(salvarSucesso());
   } catch(error: any) {    
      yield put(salvarError(error.response.data.message));
+  }
+}
+
+function* atualizar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto[]>>  {
+  try {   
+     yield call(axios.put,`http://localhost:8000/api/erp_gerenciamento/produto/${action.payload.id}`,action.payload,{
+           /* headers: {
+                "Authorization": `Bearer ${token_url.token}`
+            }*/
+        });
+
+        yield put(atualizarSucesso());
+  } catch(error: any) {    
+     yield put(atualizarError(error.response.data.message));
   }
 }
 
