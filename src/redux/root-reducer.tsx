@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
 import  produtoSlice  from "./produto/slice";
-import { cupomSlice } from "./cupom/slice";
+import  cupomSlice  from "./cupom/slice";
 
 const rootReducer = combineReducers({
     produto: produtoSlice,

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
-import { listar, deletar } from "../../redux/produto/slice";
+import { listar } from "../../redux/cupom/slice";
 
 import { PiNotePencilLight } from "react-icons/pi";
 import { IoTrashBinOutline } from "react-icons/io5";
@@ -20,7 +20,7 @@ import Menu from "../../components/Menu";
 const Cupom = (): ReactElement => {
 
     const dispatch = useDispatch();
-    const { loading, produtos } = useSelector((state: RootState) => state.produto);
+    const { loading, cupons } = useSelector((state: RootState) => state.cupom);
 
     const IconeEditar = PiNotePencilLight as unknown as React.FC<React.SVGProps<SVGSVGElement>>;  
     const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
@@ -30,13 +30,13 @@ const Cupom = (): ReactElement => {
     },[]);
 
     const removerProduto = (id: number) => {
-        dispatch(deletar({
+       /* dispatch(deletar({
             'id': id
         }));
 
         setTimeout(() => {
             window.location.reload()
-        }, 7000);
+        }, 7000);*/
     } 
 
     return (
@@ -58,7 +58,7 @@ const Cupom = (): ReactElement => {
                                     <span className="visually-hidden">Loading...</span>
                                 </div>
                             :                            
-                                produtos.length === 0
+                                cupons.length === 0
                                 ?
                                     <Alert variant='info'>
                                         Não existem dados para exibir
@@ -70,24 +70,20 @@ const Cupom = (): ReactElement => {
                                             <tr>
                                                 <th scope='col'>Nome</th>                        
                                                 <th scope='col'>Desconto</th>
-                                                <th scope='col'>Validade</th>
-                                                <th scope='col'>Quantidade</th>
-                                                <th scope='col'>Data</th>
+                                                <th scope='col'>Validade</th>                                                
                                                 <th scope='col'></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {
-                                                produtos.map((p,i) => 
+                                                cupons.map((c,i) => 
                                                 (
-                                                    <tr key={p['id']}>
-                                                        <td>{p['nome']}</td>
-                                                        <td>{p['preco']}</td>  
-                                                        <td>{p['variacoes']}</td>
-                                                        <td>{p['estoques']['quantidade']}</td>        
-                                                        <td>{p['created_at']}</td>
+                                                    <tr key={c['id']}>
+                                                        <td>{c['nome']}</td>
+                                                        <td>{c['desconto']}</td>  
+                                                        <td>{c['validade']}</td>                                                                                                                    
                                                         <td>
-                                                            <Link to={`/editarproduto/${p['id']}`} 
+                                                            <Link to={`/editarproduto/${c['id']}`} 
                                                                 className="btn btn-info float-start me-1 text-white"
                                                                 title='Editar'>
                                                                 <IconeEditar />        
@@ -95,7 +91,7 @@ const Cupom = (): ReactElement => {
                                                             <button 
                                                                 className="btn btn-danger float-start text-white"
                                                                 title='Remover'
-                                                                onClick={() => removerProduto(p['id'])}>
+                                                                onClick={() => removerProduto(c['id'])}>
                                                                 <IconeRemover />
                                                             </button>
                                                         </td>                         

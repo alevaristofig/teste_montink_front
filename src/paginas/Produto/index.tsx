@@ -78,7 +78,7 @@ const Produto = (): ReactElement => {
                                         </thead>
                                         <tbody>
                                             {
-                                                produtos.map((p,i) => 
+                                                produtos.map((p: any,i: number) => 
                                                 (
                                                     <tr key={p['id']}>
                                                         <td>{p['nome']}</td>

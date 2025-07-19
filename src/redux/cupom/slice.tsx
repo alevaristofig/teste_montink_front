@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     loading: false,
-    produtos: []
+    cupons: []
 }
 
 export const cupomSlice = createSlice({
@@ -15,7 +15,7 @@ export const cupomSlice = createSlice({
         },
         listarSucesso: (state,action) => {
             state.loading = false;
-            state.produtos = action.payload;
+            state.cupons = action.payload;
         },
         listarErro: (state) => {
             state.loading = false;            
