@@ -4,6 +4,7 @@ import Home from "./paginas/Home";
 import Produto from "./paginas/Produto";
 import CadastroProduto from "./paginas/Produto/cadastroProduto";
 import EditarProduto from "./paginas/Produto/editarProduto";
+import Cupom from "./paginas/Cupom";
 
 const router = createBrowserRouter([
     {
@@ -21,7 +22,11 @@ const router = createBrowserRouter([
     {
         path: '/editarproduto/:id',
         element: <EditarProduto />
-    }
+    },
+    {
+        path: '/cupom',
+        element: <Cupom />
+    },
 ]);
 
 export { router }
