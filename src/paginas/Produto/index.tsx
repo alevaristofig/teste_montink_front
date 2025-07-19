@@ -39,7 +39,7 @@ const Produto = (): ReactElement => {
                 <Menu />
                 <div className="container-fluid">
                         <div className='me-2 float-start'>
-                            <Button href='/cadastroproduto' className='me-2 float-start'>Novo Produto</Button>
+                            <Button href='/cadastroproduto' className='me-2 mb-4 float-start'>Novo Produto</Button>
                         </div>
                         {
                             loading
@@ -61,6 +61,7 @@ const Produto = (): ReactElement => {
                                                 <th scope='col'>Nome</th>                        
                                                 <th scope='col'>Preço</th>
                                                 <th scope='col'>Variações</th>
+                                                <th scope='col'>Quantidade</th>
                                                 <th scope='col'>Data</th>
                                                 <th scope='col'></th>
                                             </tr>
@@ -72,7 +73,8 @@ const Produto = (): ReactElement => {
                                                     <tr key={p['id']}>
                                                         <td>{p['nome']}</td>
                                                         <td>{p['preco']}</td>  
-                                                        <td>{p['variacoes']}</td>      
+                                                        <td>{p['variacoes']}</td>
+                                                        <td>{p['estoques']['quantidade']}</td>        
                                                         <td>{p['created_at']}</td>
                                                         <td>
                                                             <Link to={`/editarproduto/${p['id']}`} 

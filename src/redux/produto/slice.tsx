@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from 'react-toastify';
 
 const initialState = {
     loading: false,
@@ -19,18 +20,33 @@ export const produtoSlice = createSlice({
         listarErro: (state) => {
             state.loading = false;            
         },
-        salvar: (state,action) => {
+        salvar: (state,action) => {            
             state.loading = true;
         },
         salvarSucesso: (state) => {
             state.loading = false;
+            toast.success("Produto cadastrado com Sucesso!");
         },
-        salvarError: (state) => {
+        salvarError: (state,action) => {
             state.loading = false;
+            toast.error(action.payload);
+        },
+        deletar: (state,action) => {
+            state.loading = true;
+        },
+        deletarSucesso: (state,action) => {
+            state.loading = false;
+             toast.success("Produto removido com Sucesso!");
+        },
+        deletarError: (state,action) => {
+            state.loading = false;
+             toast.success(action.payload);
         }
     }
 });
 
-export const { listar, listarSucesso, listarErro, salvar, salvarSucesso, salvarError } = produtoSlice.actions;
+export const { listar, listarSucesso, listarErro, salvar, salvarSucesso, salvarError,
+               deletar, deletarSucesso, deletarError
+             } = produtoSlice.actions;
 
 export default produtoSlice.reducer;

@@ -4,8 +4,8 @@ import { listarSucesso, listarErro, salvarSucesso, salvarError } from "./slice";
 
 import { IProduto } from "../../interfaces/produto/produto.interface";
 
-import axios from "axios";
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
+import { AnyAction } from "redux-saga";
 
 function* listar(): Generator<any, void, AxiosResponse<IProduto[]>>  {
     try {
@@ -22,11 +22,18 @@ function* listar(): Generator<any, void, AxiosResponse<IProduto[]>>  {
     }
 }
 
-function* salvar(action: ReturnType<typeof IProduto>) {
+function* salvar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto[]>>  {
   try {
+   console.log(action.payload)
+     yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/produto`,action.payload,{
+           /* headers: {
+                "Authorization": `Bearer ${token_url.token}`
+            }*/
+        });
 
-  } catch(error) {
-
+        yield put(salvarSucesso());
+  } catch(error: any) {    
+     yield put(salvarError(error.response.data.message));
   }
 }
 

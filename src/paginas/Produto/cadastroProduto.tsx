@@ -1,8 +1,8 @@
 import { ReactElement, useState, FormEvent } from "react";
+import { useDispatch } from "react-redux";
+import { ToastContainer } from 'react-toastify';
 
-import Cabecalho from "../../components/Cabecalho";
-import Menu from "../../components/Menu";
-
+import { salvar } from "../../redux/produto/slice";
 
 import Row  from 'react-bootstrap/Row';
 import Col  from 'react-bootstrap/Col';
@@ -10,15 +10,37 @@ import Card from 'react-bootstrap/Card';
 import Form  from 'react-bootstrap/Form';
 import Button  from 'react-bootstrap/Button';
 
+import Cabecalho from "../../components/Cabecalho";
+import Menu from "../../components/Menu";
+
 const CadastroProduto = (): ReactElement => {
 
-    const [nome,setNome] = useState<string>('');
-    const [preco,setPreco] = useState<number>();
-    const [variacoes,setVariacoes] = useState<string>('');
+    const dispatch = useDispatch();
 
-    const salvar = (e: FormEvent<HTMLFormElement>) => {
-         e.preventDefault();
-        console.log(nome,preco,variacoes);
+    const [nome,setNome] = useState<string>('');
+    const [preco,setPreco] = useState<number>(0);
+    const [variacoes,setVariacoes] = useState<string>('');
+    const [quantidade,setQuantidade] = useState<number>(0);
+
+    const salvarProduto = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        let dados = {
+            'nome': nome,
+            'preco': preco,
+            'variacoes': variacoes,
+            'estoque': {
+                'quantidade': quantidade
+            }
+        };
+
+        dispatch(salvar(dados));
+
+        setNome('');
+        setPreco(0);
+        setVariacoes('');
+        setQuantidade(0);
+        
     }
 
     return(
@@ -27,7 +49,10 @@ const CadastroProduto = (): ReactElement => {
             <div className='d-flex mt-3'>
                 <Menu />
                 <div className="container-fluid">
-                    <Form onSubmit={salvar}>
+                    <div>
+                        <ToastContainer />
+                    </div>
+                    <Form onSubmit={salvarProduto}>
                         <Card>
                             <Card.Body>
                                 <Form.Group className='mb-4'>
@@ -55,7 +80,7 @@ const CadastroProduto = (): ReactElement => {
                                                 required
                                             ></Form.Control></Col>
                                     </Row>
-                                    <Row>
+                                    <Row className="mb-4">
                                         <Col xs={1}>
                                              <Form.Label>Variações*:</Form.Label>                                             
                                         </Col>
@@ -64,6 +89,18 @@ const CadastroProduto = (): ReactElement => {
                                                 type='text' 
                                                 onChange={(e) => setVariacoes(e.target.value)}
                                                 value={variacoes}
+                                                required
+                                            ></Form.Control></Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={1}>
+                                             <Form.Label>Quantidade*:</Form.Label>                                             
+                                        </Col>
+                                        <Col xs={10}>
+                                            <Form.Control 
+                                                type='text' 
+                                                onChange={(e) => setQuantidade(Number(e.target.value))}
+                                                value={quantidade}
                                                 required
                                             ></Form.Control></Col>
                                     </Row>
