@@ -49,7 +49,7 @@ const Cupom = (): ReactElement => {
                             <ToastContainer />
                         </div>
                         <div className='me-2 float-start'>
-                            <Button href='/cadastroproduto' className='me-2 mb-4 float-start'>Novo Produto</Button>
+                            <Button href='/cadastroproduto' className='me-2 mb-4 float-start'>Novo Cupom</Button>
                         </div>
                         {
                             loading
@@ -69,8 +69,8 @@ const Cupom = (): ReactElement => {
                                         <thead>
                                             <tr>
                                                 <th scope='col'>Nome</th>                        
-                                                <th scope='col'>Preço</th>
-                                                <th scope='col'>Variações</th>
+                                                <th scope='col'>Desconto</th>
+                                                <th scope='col'>Validade</th>
                                                 <th scope='col'>Quantidade</th>
                                                 <th scope='col'>Data</th>
                                                 <th scope='col'></th>
