@@ -1,9 +1,9 @@
 import { ReactElement, useState, FormEvent, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 
-import { salvar } from "../../redux/produto/slice";
+import { atualizar } from "../../redux/produto/slice";
 
 import useProduto from "../../hook/produtoHook";
 
@@ -19,6 +19,7 @@ import Menu from "../../components/Menu";
 const EditarProduto = (): ReactElement => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { id } = useParams<string>();
     const { buscarProduto } = useProduto();
 
@@ -44,21 +45,20 @@ const EditarProduto = (): ReactElement => {
     const editarProduto = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        let dados = {
+        dispatch(atualizar({
+            'id': id,
             'nome': nome,
             'preco': preco,
             'variacoes': variacoes,
-            'estoque': {
-                'quantidade': quantidade
-            }
-        };
-
-       // dispatch(salvar(dados));
+            'quantidade': quantidade
+        }));
 
         setNome('');
         setPreco(0);
         setVariacoes('');
         setQuantidade(0);
+
+        navigate('/produto', {replace: true});
         
     }
 

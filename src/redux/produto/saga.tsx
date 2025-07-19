@@ -39,17 +39,28 @@ function* salvar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto
 }
 
 function* atualizar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto[]>>  {
-  try {   
-     yield call(axios.put,`http://localhost:8000/api/erp_gerenciamento/produto/${action.payload.id}`,action.payload,{
+    try {
+
+        let dados = {
+            'nome': action.payload.nome,
+            'preco': action.payload.preco,
+            'variacoes': action.payload.variacoes,
+            'estoque': {
+                'quantidade': action.payload.quantidade
+            }
+        }
+
+        yield call(axios.put,`http://localhost:8000/api/erp_gerenciamento/produto/${action.payload.id}`,dados,{
            /* headers: {
                 "Authorization": `Bearer ${token_url.token}`
             }*/
         });
 
         yield put(atualizarSucesso());
-  } catch(error: any) {    
-     yield put(atualizarError(error.response.data.message));
-  }
+
+    } catch(error: any) {    
+        yield put(atualizarError(error.response.data.message));
+    }
 }
 
 function* deletar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto[]>>  {
@@ -70,4 +81,5 @@ export default all([
      takeEvery('produto/listar', listar),
      takeEvery('produto/salvar', salvar),
      takeEvery('produto/deletar', deletar),
+     takeEvery('produto/atualizar', atualizar),
 ]);
