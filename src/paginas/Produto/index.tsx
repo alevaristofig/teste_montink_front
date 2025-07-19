@@ -24,6 +24,8 @@ const Produto = (): ReactElement => {
     const dispatch = useDispatch();
     const { loading, produtos } = useSelector((state: RootState) => state.produto);
 
+    const [id,setId] = useState<number>();
+
     const IconeEditar = PiNotePencilLight as unknown as React.FC<React.SVGProps<SVGSVGElement>>;  
     const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
     const IconeCarrinho = FcAddRow as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
@@ -42,7 +44,8 @@ const Produto = (): ReactElement => {
         }, 7000);
     } 
 
-    const realizarPedido = (id: number) => {
+    const mostrarDivPedido = (id: number) => {
+        setId(id);
         const modal = document.querySelector("#modal");
 
         modal!.classList.remove('d-none')     
@@ -50,7 +53,7 @@ const Produto = (): ReactElement => {
 
     return (
         <>
-            <ModalPedido />
+            <ModalPedido id={id}/>
             <Cabecalho />
             <div className='d-flex mt-3'>
                 <Menu />
@@ -111,7 +114,7 @@ const Produto = (): ReactElement => {
                                                             <button 
                                                                 className="btn btn-success float-start text-white"
                                                                 title='Comprar'
-                                                                onClick={() => realizarPedido(p['id'])}>
+                                                                onClick={() => mostrarDivPedido(p['id'])}>
                                                                 <IconeCarrinho />
                                                             </button>
                                                         </td>                         
