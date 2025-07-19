@@ -53,7 +53,7 @@ const EditarProduto = (): ReactElement => {
             }
         };
 
-        dispatch(salvar(dados));
+       // dispatch(salvar(dados));
 
         setNome('');
         setPreco(0);
@@ -125,7 +125,7 @@ const EditarProduto = (): ReactElement => {
                                     </Row>
                                 </Form.Group>
                                 <Form.Group className='mt-4'>
-                                    <Button type='submit'>Salvar</Button>
+                                    <Button type='submit'>Atualizar</Button>
                                 </Form.Group> 
                             </Card.Body>
                         </Card>

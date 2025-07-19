@@ -31,6 +31,17 @@ export const produtoSlice = createSlice({
             state.loading = false;
             toast.error(action.payload);
         },
+        atualizar(state,action) {
+            state.loading = true;
+        },
+        atualizarSucesso(state) {
+            state.loading = false;
+            toast.success("Produto atualizado com Sucesso!");
+        },
+        atualizarError(state,action) {
+            state.loading = false;
+            toast.error(action.payload);
+        },
         deletar: (state,action) => {
             state.loading = true;
         },
@@ -46,7 +57,8 @@ export const produtoSlice = createSlice({
 });
 
 export const { listar, listarSucesso, listarErro, salvar, salvarSucesso, salvarError,
-               deletar, deletarSucesso, deletarError
+               deletar, deletarSucesso, deletarError, atualizar, atualizarSucesso,
+               atualizarError
              } = produtoSlice.actions;
 
 export default produtoSlice.reducer;
