@@ -39,8 +39,8 @@ function* salvar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto
 }
 
 function* deletar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto[]>>  {
-  try {   
-     yield call(axios.delete,`http://localhost:8000/api/erp_gerenciamento/produto/${action.payload}`,{
+  try {     
+        yield call(axios.delete,`http://localhost:8000/api/erp_gerenciamento/produto/${action.payload.id}`,{
            /* headers: {
                 "Authorization": `Bearer ${token_url.token}`
             }*/

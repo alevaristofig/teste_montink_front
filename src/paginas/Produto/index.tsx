@@ -1,8 +1,9 @@
 import { ReactElement, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
-import { listar } from "../../redux/produto/slice";
+import { listar, deletar } from "../../redux/produto/slice";
 
 import { PiNotePencilLight } from "react-icons/pi";
 import { IoTrashBinOutline } from "react-icons/io5";
@@ -29,7 +30,13 @@ const Produto = (): ReactElement => {
     },[]);
 
     const removerProduto = (id: number) => {
-        alert(id)
+        dispatch(deletar({
+            'id': id
+        }));
+
+        setTimeout(() => {
+            window.location.reload()
+        }, 7000);
     } 
 
     return (
@@ -38,6 +45,9 @@ const Produto = (): ReactElement => {
             <div className='d-flex mt-3'>
                 <Menu />
                 <div className="container-fluid">
+                        <div>
+                            <ToastContainer />
+                        </div>
                         <div className='me-2 float-start'>
                             <Button href='/cadastroproduto' className='me-2 mb-4 float-start'>Novo Produto</Button>
                         </div>
