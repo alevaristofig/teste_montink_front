@@ -7,6 +7,7 @@ import { listar, deletar } from "../../redux/produto/slice";
 
 import { PiNotePencilLight } from "react-icons/pi";
 import { IoTrashBinOutline } from "react-icons/io5";
+import { FcAddRow } from "react-icons/fc";
 
 import { RootState } from "../../redux/root-reducer";
 
@@ -16,6 +17,7 @@ import Button  from 'react-bootstrap/Button';
 
 import Cabecalho from "../../components/Cabecalho";
 import Menu from "../../components/Menu";
+import ModalPedido from "../../components/Modal/modalPedido";
 
 const Produto = (): ReactElement => {
 
@@ -24,6 +26,7 @@ const Produto = (): ReactElement => {
 
     const IconeEditar = PiNotePencilLight as unknown as React.FC<React.SVGProps<SVGSVGElement>>;  
     const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
+    const IconeCarrinho = FcAddRow as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
     useEffect(() => {
          dispatch(listar());
@@ -39,8 +42,15 @@ const Produto = (): ReactElement => {
         }, 7000);
     } 
 
+    const realizarPedido = (id: number) => {
+        const modal = document.querySelector("#modal");
+
+        modal!.classList.remove('d-none')     
+    }
+
     return (
         <>
+            <ModalPedido />
             <Cabecalho />
             <div className='d-flex mt-3'>
                 <Menu />
@@ -71,7 +81,7 @@ const Produto = (): ReactElement => {
                                                 <th scope='col'>Nome</th>                        
                                                 <th scope='col'>Preço</th>
                                                 <th scope='col'>Variações</th>
-                                                <th scope='col'>Quantidade</th>
+                                                <th scope='col'>Estoque</th>
                                                 <th scope='col'>Data</th>
                                                 <th scope='col'></th>
                                             </tr>
@@ -93,10 +103,16 @@ const Produto = (): ReactElement => {
                                                                 <IconeEditar />        
                                                             </Link>
                                                             <button 
-                                                                className="btn btn-danger float-start text-white"
+                                                                className="btn btn-danger float-start me-1 text-white"
                                                                 title='Remover'
                                                                 onClick={() => removerProduto(p['id'])}>
                                                                 <IconeRemover />
+                                                            </button>
+                                                            <button 
+                                                                className="btn btn-success float-start text-white"
+                                                                title='Comprar'
+                                                                onClick={() => realizarPedido(p['id'])}>
+                                                                <IconeCarrinho />
                                                             </button>
                                                         </td>                         
                                                     </tr>
