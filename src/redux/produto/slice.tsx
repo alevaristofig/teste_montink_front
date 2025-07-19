@@ -34,7 +34,7 @@ export const produtoSlice = createSlice({
         deletar: (state,action) => {
             state.loading = true;
         },
-        deletarSucesso: (state,action) => {
+        deletarSucesso: (state) => {
             state.loading = false;
              toast.success("Produto removido com Sucesso!");
         },

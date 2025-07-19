@@ -1,6 +1,8 @@
 import { all, takeEvery, put, call } from "redux-saga/effects";
 
-import { listarSucesso, listarErro, salvarSucesso, salvarError } from "./slice";
+import { listarSucesso, listarErro, salvarSucesso, salvarError, deletarSucesso,
+         deletarError
+       } from "./slice";
 
 import { IProduto } from "../../interfaces/produto/produto.interface";
 
@@ -23,8 +25,7 @@ function* listar(): Generator<any, void, AxiosResponse<IProduto[]>>  {
 }
 
 function* salvar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto[]>>  {
-  try {
-   console.log(action.payload)
+  try {   
      yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/produto`,action.payload,{
            /* headers: {
                 "Authorization": `Bearer ${token_url.token}`
@@ -37,7 +38,22 @@ function* salvar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto
   }
 }
 
+function* deletar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto[]>>  {
+  try {   
+     yield call(axios.delete,`http://localhost:8000/api/erp_gerenciamento/produto/${action.payload}`,{
+           /* headers: {
+                "Authorization": `Bearer ${token_url.token}`
+            }*/
+        });
+
+        yield put(deletarSucesso());
+  } catch(error: any) {    
+     yield put(deletarError(error.response.data.message));
+  }
+}
+
 export default all([
      takeEvery('produto/listar', listar),
      takeEvery('produto/salvar', salvar),
+     takeEvery('produto/deletar', deletar),
 ]);
