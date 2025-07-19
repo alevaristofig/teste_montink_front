@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "./paginas/Home";
 import Produto from "./paginas/Produto";
 import CadastroProduto from "./paginas/Produto/cadastroProduto";
+import EditarProduto from "./paginas/Produto/editarProduto";
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     {
         path: '/cadastroproduto',
         element: <CadastroProduto />
+    },
+    {
+        path: '/editarproduto/:id',
+        element: <EditarProduto />
     }
 ]);
 
