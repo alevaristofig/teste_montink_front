@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 
 import { atualizar } from "../../redux/produto/slice";
 
-import useProduto from "../../hook/produtoHook";
+import useCupom from "../../hook/cupom/cupomHook";
 
 import Row  from 'react-bootstrap/Row';
 import Col  from 'react-bootstrap/Col';
@@ -21,22 +21,21 @@ const EditarCupom = (): ReactElement => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams<string>();
-    const { buscarProduto } = useProduto();
+    const { buscarCupom } = useCupom();
 
     const [nome,setNome] = useState<string>('');
-    const [preco,setPreco] = useState<number>(0);
-    const [variacoes,setVariacoes] = useState<string>('');
-    const [quantidade,setQuantidade] = useState<number>(0);
+    const [desconto,setDesconto] = useState<number>(0);
+    const [validade,setValidade] = useState<string>('');
+
 
     useEffect(() => {
         
          async function buscarDados() {
-            let response = await buscarProduto(Number(id));
+            let response = await buscarCupom(Number(id));
 
-            setNome(response[0].nome);
-            setPreco(response[0].preco);
-            setVariacoes(response[0].variacoes);
-            setQuantidade(response[0].estoques.quantidade)
+            setNome(response.nome);
+            setDesconto(response.desconto);
+            setValidade(response.validade);            
          }
 
          buscarDados();
@@ -48,17 +47,15 @@ const EditarCupom = (): ReactElement => {
         dispatch(atualizar({
             'id': id,
             'nome': nome,
-            'preco': preco,
-            'variacoes': variacoes,
-            'quantidade': quantidade
+            'desconto': desconto,
+            'validade': validade, 
         }));
 
         setNome('');
-        setPreco(0);
-        setVariacoes('');
-        setQuantidade(0);
+        setDesconto(0);
+        setValidade('');   
 
-        navigate('/produto', {replace: true});
+        navigate('/cupom', {replace: true});
         
     }
 
@@ -89,37 +86,25 @@ const EditarCupom = (): ReactElement => {
                                     </Row>
                                     <Row className="mb-4">
                                         <Col xs={1}>
-                                             <Form.Label>Preço*:</Form.Label>                                             
+                                             <Form.Label>Desconto*:</Form.Label>                                             
                                         </Col>
                                         <Col xs={10}>
                                             <Form.Control 
                                                 type='text' 
-                                                onChange={(e) => setPreco(Number(e.target.value))}
-                                                value={preco}
+                                                onChange={(e) => setDesconto(Number(e.target.value))}
+                                                value={desconto}
                                                 required
                                             ></Form.Control></Col>
                                     </Row>
                                     <Row className="mb-4">
                                         <Col xs={1}>
-                                             <Form.Label>Variações*:</Form.Label>                                             
+                                             <Form.Label>Validade*:</Form.Label>                                             
                                         </Col>
                                         <Col xs={10}>
                                             <Form.Control 
                                                 type='text' 
-                                                onChange={(e) => setVariacoes(e.target.value)}
-                                                value={variacoes}
-                                                required
-                                            ></Form.Control></Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={1}>
-                                             <Form.Label>Quantidade*:</Form.Label>                                             
-                                        </Col>
-                                        <Col xs={10}>
-                                            <Form.Control 
-                                                type='text' 
-                                                onChange={(e) => setQuantidade(Number(e.target.value))}
-                                                value={quantidade}
+                                                onChange={(e) => setValidade(e.target.value)}
+                                                value={validade}
                                                 required
                                             ></Form.Control></Col>
                                     </Row>

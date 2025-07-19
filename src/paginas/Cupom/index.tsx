@@ -83,7 +83,7 @@ const Cupom = (): ReactElement => {
                                                         <td>{c['desconto']}</td>  
                                                         <td>{c['validade']}</td>                                                                                                                    
                                                         <td>
-                                                            <Link to={`/editarproduto/${c['id']}`} 
+                                                            <Link to={`/editarcupom/${c['id']}`} 
                                                                 className="btn btn-info float-start me-1 text-white"
                                                                 title='Editar'>
                                                                 <IconeEditar />        
