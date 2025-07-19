@@ -60,9 +60,23 @@ function* atualizar(action: AnyAction): Generator<any, void, AxiosResponse<ICupo
     }
 }
 
+function* deletar(action: AnyAction): Generator<any, void, AxiosResponse<ICupom[]>>  {
+  try {     
+        yield call(axios.delete,`http://localhost:8000/api/erp_gerenciamento/cupom/${action.payload.id}`,{
+           /* headers: {
+                "Authorization": `Bearer ${token_url.token}`
+            }*/
+        });
+
+        yield put(deletarSucesso());
+  } catch(error: any) {    
+     yield put(deletarError(error.response.data.message));
+  }
+}
+
 export default all([
      takeEvery('cupom/listar', listar),
      takeEvery('cupom/salvar', salvar),
-    // takeEvery('produto/deletar', deletar),
+     takeEvery('cupom/deletar', deletar),
      takeEvery('cupom/atualizar', atualizar),
 ]);

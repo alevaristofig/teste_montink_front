@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
-import { listar } from "../../redux/cupom/slice";
+import { listar, deletar } from "../../redux/cupom/slice";
 
 import { PiNotePencilLight } from "react-icons/pi";
 import { IoTrashBinOutline } from "react-icons/io5";
@@ -29,14 +29,14 @@ const Cupom = (): ReactElement => {
          dispatch(listar());
     },[]);
 
-    const removerProduto = (id: number) => {
-       /* dispatch(deletar({
+    const removerCupom = (id: number) => {
+        dispatch(deletar({
             'id': id
         }));
 
         setTimeout(() => {
             window.location.reload()
-        }, 7000);*/
+        }, 7000);
     } 
 
     return (
@@ -91,7 +91,7 @@ const Cupom = (): ReactElement => {
                                                             <button 
                                                                 className="btn btn-danger float-start text-white"
                                                                 title='Remover'
-                                                                onClick={() => removerProduto(c['id'])}>
+                                                                onClick={() => removerCupom(c['id'])}>
                                                                 <IconeRemover />
                                                             </button>
                                                         </td>                         
