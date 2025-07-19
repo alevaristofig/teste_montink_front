@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 
-import { atualizar } from "../../redux/produto/slice";
+import { atualizar } from "../../redux/cupom/slice";
 
 import useCupom from "../../hook/cupom/cupomHook";
 

@@ -38,9 +38,31 @@ function* salvar(action: AnyAction): Generator<any, void, AxiosResponse<ICupom[]
   }
 }
 
+function* atualizar(action: AnyAction): Generator<any, void, AxiosResponse<ICupom[]>>  {
+    try {
+
+        let dados = {
+            'nome': action.payload.nome,
+            'desconto': action.payload.desconto,
+            'validade': action.payload.validade,            
+        }        
+
+        yield call(axios.put,`http://localhost:8000/api/erp_gerenciamento/cupom/${action.payload.id}`,dados,{
+           /* headers: {
+                "Authorization": `Bearer ${token_url.token}`
+            }*/
+       });
+
+        yield put(atualizarSucesso());
+
+    } catch(error: any) {    
+        yield put(atualizarError(error.response.data.message));
+    }
+}
+
 export default all([
      takeEvery('cupom/listar', listar),
      takeEvery('cupom/salvar', salvar),
     // takeEvery('produto/deletar', deletar),
-    // takeEvery('produto/atualizar', atualizar),
+     takeEvery('cupom/atualizar', atualizar),
 ]);
