@@ -1,8 +1,11 @@
-import { ReactElement, useState, FormEvent } from "react";
+import { ReactElement, useState, FormEvent, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 
-import { salvar } from "../../redux/cupom/slice";
+import { atualizar } from "../../redux/produto/slice";
+
+import useProduto from "../../hook/produtoHook";
 
 import Row  from 'react-bootstrap/Row';
 import Col  from 'react-bootstrap/Col';
@@ -13,28 +16,50 @@ import Button  from 'react-bootstrap/Button';
 import Cabecalho from "../../components/Cabecalho";
 import Menu from "../../components/Menu";
 
-const CadastroCupom = (): ReactElement => {
+const EditarCupom = (): ReactElement => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { id } = useParams<string>();
+    const { buscarProduto } = useProduto();
 
     const [nome,setNome] = useState<string>('');
-    const [desconto,setDesconto] = useState<number>(0);
-    const [validade,setValidade] = useState<string>('');
+    const [preco,setPreco] = useState<number>(0);
+    const [variacoes,setVariacoes] = useState<string>('');
+    const [quantidade,setQuantidade] = useState<number>(0);
 
-    const salvarCupom = (e: FormEvent<HTMLFormElement>) => {
+    useEffect(() => {
+        
+         async function buscarDados() {
+            let response = await buscarProduto(Number(id));
+
+            setNome(response[0].nome);
+            setPreco(response[0].preco);
+            setVariacoes(response[0].variacoes);
+            setQuantidade(response[0].estoques.quantidade)
+         }
+
+         buscarDados();
+    },[])
+
+    const editarProduto = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        let dados = {
+        dispatch(atualizar({
+            'id': id,
             'nome': nome,
-            'desconto': desconto,
-            'validade': validade,            
-        };
-
-        dispatch(salvar(dados));
+            'preco': preco,
+            'variacoes': variacoes,
+            'quantidade': quantidade
+        }));
 
         setNome('');
-        setDesconto(0);
-        setValidade('');                
+        setPreco(0);
+        setVariacoes('');
+        setQuantidade(0);
+
+        navigate('/produto', {replace: true});
+        
     }
 
     return(
@@ -46,7 +71,7 @@ const CadastroCupom = (): ReactElement => {
                     <div>
                         <ToastContainer />
                     </div>
-                    <Form onSubmit={salvarCupom}>
+                    <Form onSubmit={editarProduto}>
                         <Card>
                             <Card.Body>
                                 <Form.Group className='mb-4'>
@@ -64,31 +89,43 @@ const CadastroCupom = (): ReactElement => {
                                     </Row>
                                     <Row className="mb-4">
                                         <Col xs={1}>
-                                             <Form.Label>Desconto*:</Form.Label>                                             
+                                             <Form.Label>Preço*:</Form.Label>                                             
                                         </Col>
                                         <Col xs={10}>
                                             <Form.Control 
                                                 type='text' 
-                                                onChange={(e) => setDesconto(Number(e.target.value))}
-                                                value={desconto}
+                                                onChange={(e) => setPreco(Number(e.target.value))}
+                                                value={preco}
                                                 required
                                             ></Form.Control></Col>
                                     </Row>
                                     <Row className="mb-4">
                                         <Col xs={1}>
-                                             <Form.Label>Validade*:</Form.Label>                                             
+                                             <Form.Label>Variações*:</Form.Label>                                             
                                         </Col>
                                         <Col xs={10}>
                                             <Form.Control 
                                                 type='text' 
-                                                onChange={(e) => setValidade(e.target.value)}
-                                                value={validade}
+                                                onChange={(e) => setVariacoes(e.target.value)}
+                                                value={variacoes}
+                                                required
+                                            ></Form.Control></Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={1}>
+                                             <Form.Label>Quantidade*:</Form.Label>                                             
+                                        </Col>
+                                        <Col xs={10}>
+                                            <Form.Control 
+                                                type='text' 
+                                                onChange={(e) => setQuantidade(Number(e.target.value))}
+                                                value={quantidade}
                                                 required
                                             ></Form.Control></Col>
                                     </Row>
                                 </Form.Group>
                                 <Form.Group className='mt-4'>
-                                    <Button type='submit'>Salvar</Button>
+                                    <Button type='submit'>Atualizar</Button>
                                 </Form.Group> 
                             </Card.Body>
                         </Card>
@@ -99,4 +136,4 @@ const CadastroCupom = (): ReactElement => {
     )
 }
 
-export default CadastroCupom; 
+export default EditarCupom; 

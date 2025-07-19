@@ -25,7 +25,7 @@ export const cupomSlice = createSlice({
         },
         salvarSucesso: (state) => {
             state.loading = false;
-            toast.success("Produto cadastrado com Sucesso!");
+            toast.success("Cupom cadastrado com Sucesso!");
         },
         salvarError: (state,action) => {
             state.loading = false;
