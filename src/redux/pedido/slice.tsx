@@ -32,6 +32,7 @@ export const PedidoSlice = createSlice({
     }
 })
 
-export const { realizarPedido, realizarPedidoSucesso, realizarPedidoError } = PedidoSlice.actions;
+export const { realizarPedido, realizarPedidoSucesso, realizarPedidoError, listarCarrinho,
+               listarCarrinhoSucesso, listarCarrinhoError } = PedidoSlice.actions;
 
 export default PedidoSlice.reducer;

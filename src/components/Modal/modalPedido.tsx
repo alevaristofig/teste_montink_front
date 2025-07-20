@@ -54,6 +54,7 @@ const ModalPedido = ({id}: Props): ReactElement => {
         let dados = {
             "id_user": 1,
             "produto_id": id,
+            "nome": nome,
             "quantidade": quantidade,
             "data": dataFormatadaMysql,            
             "valor_total": preco,
