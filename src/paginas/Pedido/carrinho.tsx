@@ -29,7 +29,9 @@ const Carrinho = (): ReactElement => {
          dispatch(listarCarrinho());
     },[]);
 
-    const removerProduto = (id: number) => {}
+    const removerProduto = (produto_id: number, data: string, nome: string) => {
+        
+    }
 
     return (
         <>
@@ -82,7 +84,7 @@ const Carrinho = (): ReactElement => {
                                                             <button 
                                                                 className="btn btn-danger float-start me-1 text-white"
                                                                 title='Remover produto'
-                                                                onClick={() => removerProduto(c['produto_id'])}>
+                                                                onClick={() => removerProduto(c['produto_id'],c['data'],c['nome'])}>
                                                                 <IconeRemover />
                                                             </button>
                                                         </td>                       
