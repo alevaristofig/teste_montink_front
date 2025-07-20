@@ -9,18 +9,7 @@ const initialState = {
 export const PedidoSlice = createSlice({
     name: 'pedido',
     initialState,
-    reducers: {
-        realizarPedido: (state,action) => {            
-            state.loading = true;
-        },
-        realizarPedidoSucesso: (state) => {
-            state.loading = false;
-            toast.success("Produto adicionando no carrinho!");
-        },
-        realizarPedidoError: (state,action) => {
-            state.loading = false;
-            toast.error(action.payload);
-        },
+    reducers: {        
         listarCarrinho: (state) => {
             state.loading = true;
         },
@@ -35,7 +24,6 @@ export const PedidoSlice = createSlice({
     }
 })
 
-export const { realizarPedido, realizarPedidoSucesso, realizarPedidoError, listarCarrinho,
-               listarCarrinhoSucesso, listarCarrinhoError } = PedidoSlice.actions;
+export const { listarCarrinho, listarCarrinhoSucesso, listarCarrinhoError } = PedidoSlice.actions;
 
 export default PedidoSlice.reducer;

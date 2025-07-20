@@ -31,11 +31,23 @@ export const carrinhoSlice = createSlice({
             state.loading = false;  
             toast.error(action.payload);          
         },
+        adicionarCarrinho: (state,action) => {            
+            state.loading = true;
+        },
+        adicionarCarrinhoSucesso: (state) => {
+            state.loading = false;
+            toast.success("Produto adicionando no carrinho!");
+        },
+        adicionarCarrinhoError: (state,action) => {
+            state.loading = false;
+            toast.error(action.payload);
+        },
     }
 })
 
 
-export const { retirarItem, retirarItemSucesso, retirarItemErro, removerCarrinho,
+export const { adicionarCarrinho, adicionarCarrinhoSucesso, adicionarCarrinhoError, retirarItem, 
+               retirarItemSucesso, retirarItemErro, removerCarrinho,
                removerCarrinhoSucesso, removerCarrinhoErro } = carrinhoSlice.actions;
 
 export default carrinhoSlice.reducer;

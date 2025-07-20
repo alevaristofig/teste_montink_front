@@ -5,22 +5,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import { ICarrinho } from "../../interfaces/carrinho/carrinho.interface";
 
-import { realizarPedidoSucesso, realizarPedidoError, listarCarrinhoSucesso, listarCarrinhoError } from "./slice";
-
-function* realizarPedido(action: AnyAction) {
-    try {        
-            yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/pedido`,action.payload,{
-            /* headers: {
-                    "Authorization": `Bearer ${token_url.token}`
-                }*/
-            });
-
-            yield put(realizarPedidoSucesso());
-    } catch(error) {
-        alert('error')
-        yield put(realizarPedidoError(error));
-    }
-}
+import { listarCarrinhoSucesso, listarCarrinhoError } from "./slice";
 
 function* listarCarrinho(): Generator<any, void, AxiosResponse<ICarrinho[]>> {
     try {               
@@ -37,6 +22,5 @@ function* listarCarrinho(): Generator<any, void, AxiosResponse<ICarrinho[]>> {
 }
 
 export default all([
-    takeEvery('pedido/realizarPedido', realizarPedido),
     takeEvery('pedido/listarCarrinho', listarCarrinho)
 ]);

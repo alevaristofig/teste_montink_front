@@ -1,7 +1,7 @@
 import { ReactElement, useState, useEffect, FormEvent } from "react";
 import { useDispatch } from "react-redux";
 
-import { realizarPedido } from "../../redux/pedido/slice";
+import { adicionarCarrinho } from "../../redux/carrinho/slice";
 
 import useProduto from "../../hook/produtoHook";
 
@@ -41,7 +41,7 @@ const ModalPedido = ({id}: Props): ReactElement => {
          }         
     },[id]);
 
-    const realizarPedidoDados = (e: FormEvent<HTMLFormElement>) => {
+    const adicionarCarrinhoDados = (e: FormEvent<HTMLFormElement>) => {
 
         e.preventDefault();
 
@@ -57,11 +57,11 @@ const ModalPedido = ({id}: Props): ReactElement => {
             "nome": nome,
             "quantidade": quantidade,
             "data": dataFormatadaMysql,            
-            "valor_total": preco,
+            "valor_unitario": preco,
             "status": "Pendente"
         }
 
-        dispatch(realizarPedido(dados));
+        dispatch(adicionarCarrinho(dados));
 
         const modal = document.querySelector("#modal");
         modal!.classList.add("d-none");
@@ -77,7 +77,7 @@ const ModalPedido = ({id}: Props): ReactElement => {
             <div id="modal" className='d-none'>
                 <div className="modal">                   
                         <div className="container-fluid">
-                            <Form onSubmit={realizarPedidoDados}>
+                            <Form onSubmit={adicionarCarrinhoDados}>
                                 <Card>
                                     <Card.Body>
                                         <Form.Group className='mb-4'>
