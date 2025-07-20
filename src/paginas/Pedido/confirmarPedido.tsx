@@ -3,9 +3,10 @@ import { ReactElement, useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
-import { retirarItem, listarCarrinho } from "../../redux/carrinho/slice";
+import { listarCarrinho } from "../../redux/carrinho/slice";
 
-import { IoTrashBinOutline } from "react-icons/io5";
+import SubTotalFrete from "../../hook/enum/subtotalFrete";
+import Frete from "../../hook/enum/frete";
 
 import { RootState } from "../../redux/root-reducer";
 
@@ -15,11 +16,18 @@ import Button  from 'react-bootstrap/Button';
 import Cabecalho from "../../components/Cabecalho";
 import Menu from "../../components/Menu";
 
+
+type TProduto = {
+  nome: string;
+  quantidade: string; 
+  valor_unitario: string; 
+  status: string;
+  data: string; // ou Date, se for objeto
+};
+
 const ConfirmarPedido = (): ReactElement => {
 
-    const dispatch = useDispatch();
-
-     const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
+    const dispatch = useDispatch();     
 
     const { loading, produtos } = useSelector((state: RootState) => state.carrinho);
 
@@ -27,26 +35,32 @@ const ConfirmarPedido = (): ReactElement => {
          dispatch(listarCarrinho());
     },[]);
 
-    const removerProduto = (produto_id: number, data: string, nome: string) => {
-        let dados = {
-            "produto_id": produto_id,
-            "nome": nome,
-            "data": data
-        } 
-        
-        dispatch(retirarItem(dados));
-
-        setTimeout(() => {
-            window.location.reload()
-        }, 7000);
-    }
-
     const formatarData = (data: string) => {
         const dataFormatada = new Date(data);
 
         const dataExibicao = dataFormatada.toLocaleString("pt-BR");
 
         return dataExibicao.replace(',','');
+    }
+
+    const somarQuantidade = (dados: TProduto[]) => {
+        return dados.reduce((total: number, item:TProduto) => total + Number(item.quantidade), 0);
+    }
+
+    const somarValores = (dados: TProduto[]) => {
+        return dados.reduce((total: number, item:TProduto) => total + Number(item.valor_unitario), 0);
+    }
+
+    const calcularFrete = (dados: TProduto[]) => {
+        let total = dados.reduce((total: number, item:TProduto) => total + Number(item.valor_unitario), 0);
+
+        if(total >= SubTotalFrete.TOTAL1 && total <= SubTotalFrete.TOTAL2) {
+            return Frete.FRETE1;
+        } else if(total > SubTotalFrete.TOTAL2 && total <= SubTotalFrete.TOTAL3) {
+            return Frete.FRETE2;
+        } else {
+            return Frete.FRETE3;
+        }
     }
 
     return (
@@ -66,7 +80,7 @@ const ConfirmarPedido = (): ReactElement => {
                                 </div>
                             :                            
                                 produtos.length === 0
-                                ?
+                                ?                                    
                                     <div className='me-2 float-start w-100'>
                                         Não existem dados para exibir
                                     </div>
@@ -92,11 +106,15 @@ const ConfirmarPedido = (): ReactElement => {
                                                         <td>{c['valor_unitario']}</td>  
                                                         <td>{c['status']}</td>                                                                                                                    
                                                         <td>{formatarData(c['data'])}</td>                                                                                
-                                                    </tr>
+                                                    </tr>                                                   
                                                 ))
                                             }
-                                            <tr>
-                                                <td>Total</td>
+                                            <tr className="fw-bold">
+                                                <td>Totais</td>
+                                                <td>{somarQuantidade(produtos)}</td>                                                
+                                                <td>{somarValores(produtos)}</td>
+                                                <td>Frete</td>
+                                                <td>{calcularFrete(produtos)}</td>
                                             </tr>
                                         </tbody>
                                     </Table>                                
