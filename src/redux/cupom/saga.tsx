@@ -6,7 +6,7 @@ import { listarSucesso, listarErro, salvarSucesso, salvarError, deletarSucesso,
 
 import { ICupom } from "../../interfaces/cupom/cupom.interface";
 
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { AnyAction } from "redux-saga";
 
 function* listar(): Generator<any, void, AxiosResponse<ICupom[]>>  {
@@ -26,7 +26,7 @@ function* listar(): Generator<any, void, AxiosResponse<ICupom[]>>  {
 
 function* salvar(action: AnyAction): Generator<any, void, AxiosResponse<ICupom[]>>  {
   try {   
-     yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/cupom`,action.payload,{
+        yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/cupom`,action.payload,{
            /* headers: {
                 "Authorization": `Bearer ${token_url.token}`
             }*/

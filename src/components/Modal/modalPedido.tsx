@@ -1,4 +1,7 @@
-import { ReactElement, useState, useEffect } from "react";
+import { ReactElement, useState, useEffect, FormEvent } from "react";
+import { useDispatch } from "react-redux";
+
+import { realizarPedido } from "../../redux/pedido/slice";
 
 import useProduto from "../../hook/produtoHook";
 
@@ -16,6 +19,7 @@ interface Props {
 
 const ModalPedido = ({id}: Props): ReactElement => {
 
+    const dispatch = useDispatch();
     const { buscarProduto } = useProduto();
 
     const [nome,setNome] = useState<string>('');
@@ -37,12 +41,32 @@ const ModalPedido = ({id}: Props): ReactElement => {
          }         
     },[id]);
 
-    const realizarPedido = (id: number) => {
-           //onSubmit={realizarPedido}
+    const realizarPedidoDados = (e: FormEvent<HTMLFormElement>) => {
+
+        e.preventDefault();
+
+        let dataHoraAtual = new Date();
+        let dataMysql = dataHoraAtual.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+        const [dia, mes, anoHora] = dataMysql.split('/');
+        const [ano, hora] = anoHora.split(', ');
+        const dataFormatadaMysql = `${ano}-${mes}-${dia} ${hora}`;
+
+        let dados = {
+            "id_user": 1,
+            "produto_id": id,
+            "quantidade": quantidade,
+            "data": dataFormatadaMysql,            
+            "valor_total": preco,
+            "status": "Pendente"
+        }
+
+        dispatch(realizarPedido(dados));
+
+        const modal = document.querySelector("#modal");
+        modal!.classList.add("d-none");
     } 
 
-    const fecharModal = (e: React.MouseEvent): void => {
-        //setQuantidade(null);
+    const fecharModal = (e: React.MouseEvent): void => {        
         const modal = document.querySelector("#modal");
         modal!.classList.add("d-none");
     };
@@ -50,10 +74,9 @@ const ModalPedido = ({id}: Props): ReactElement => {
     return(
         <>
             <div id="modal" className='d-none'>
-                <div className="modal">
-                    <form className="form">
+                <div className="modal">                   
                         <div className="container-fluid">
-                            <Form>
+                            <Form onSubmit={realizarPedidoDados}>
                                 <Card>
                                     <Card.Body>
                                         <Form.Group className='mb-4'>
@@ -92,15 +115,14 @@ const ModalPedido = ({id}: Props): ReactElement => {
                                                     ></Form.Control></Col>
                                             </Row>
                                         </Form.Group>
-                                        <Form.Group className='mt-4'>
+                                        <Form.Group className='mt-4'>                                            
                                             <Button type='submit'>Fazer Pedido</Button>
                                             <div onClick={fecharModal} className="mt-2 text-danger fs-5" style={{cursor: 'pointer'}}>X</div>                    
                                         </Form.Group> 
                                     </Card.Body>
                                 </Card>
                             </Form>
-                        </div>
-                    </form>                    
+                        </div>                   
                 </div>                
             </div>
         </>

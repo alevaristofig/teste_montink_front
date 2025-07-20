@@ -3,15 +3,26 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     loading: false,
-    cupons: []
 }
 
 export const PedidoSlice = createSlice({
-     name: 'cupom',
+    name: 'pedido',
     initialState,
-    reducers: {}
+    reducers: {
+        realizarPedido: (state,action) => {            
+            state.loading = true;
+        },
+        realizarPedidoSucesso: (state) => {
+            state.loading = false;
+            toast.success("Produto adicionando no carrinho!");
+        },
+        realizarPedidoError: (state,action) => {
+            state.loading = false;
+            toast.error(action.payload);
+        },
+    }
 })
 
-export const {} = PedidoSlice.actions;
+export const { realizarPedido, realizarPedidoSucesso, realizarPedidoError } = PedidoSlice.actions;
 
 export default PedidoSlice.reducer;
