@@ -10,20 +10,9 @@ export const PedidoSlice = createSlice({
     name: 'pedido',
     initialState,
     reducers: {        
-        listarCarrinho: (state) => {
-            state.loading = true;
-        },
-        listarCarrinhoSucesso: (state,action) => {
-            state.loading = false;
-            state.pedidos = action.payload;
-        },
-        listarCarrinhoError: (state,action) => {
-            state.loading = false;
-            toast.error(action.payload);
-        }
     }
 })
 
-export const { listarCarrinho, listarCarrinhoSucesso, listarCarrinhoError } = PedidoSlice.actions;
+export const { } = PedidoSlice.actions;
 
 export default PedidoSlice.reducer;

@@ -1,11 +1,9 @@
 
 import { ReactElement, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
-import { listarCarrinho } from "../../redux/pedido/slice";
-import { retirarItem } from "../../redux/carrinho/slice";
+import { retirarItem, listarCarrinho } from "../../redux/carrinho/slice";
 
 import { IoTrashBinOutline } from "react-icons/io5";
 
@@ -23,7 +21,7 @@ const Carrinho = (): ReactElement => {
 
      const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
-    const { loading, pedidos } = useSelector((state: RootState) => state.pedido);
+    const { loading, produtos } = useSelector((state: RootState) => state.carrinho);
 
     useEffect(() => {
          dispatch(listarCarrinho());
@@ -70,7 +68,7 @@ const Carrinho = (): ReactElement => {
                                     <span className="visually-hidden">Loading...</span>
                                 </div>
                             :                            
-                                pedidos.length === 0
+                                produtos.length === 0
                                 ?
                                     <div className='me-2 float-start w-100'>
                                         Não existem dados para exibir
@@ -90,7 +88,7 @@ const Carrinho = (): ReactElement => {
                                         </thead>
                                         <tbody>
                                             {
-                                                pedidos.map((c,i) => 
+                                                produtos.map((c,i) => 
                                                 (
                                                     <tr key={i}>
                                                         <td>{c['nome']}</td>

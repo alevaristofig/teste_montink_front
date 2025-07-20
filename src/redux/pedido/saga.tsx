@@ -3,24 +3,7 @@ import { AnyAction } from "redux-saga";
 
 import axios, { AxiosResponse } from 'axios';
 
-import { ICarrinho } from "../../interfaces/carrinho/carrinho.interface";
-
-import { listarCarrinhoSucesso, listarCarrinhoError } from "./slice";
-
-function* listarCarrinho(): Generator<any, void, AxiosResponse<ICarrinho[]>> {
-    try {               
-            let response = yield call(axios.get,`http://localhost:8000/api/erp_gerenciamento/pedido`,{
-            /* headers: {
-                    "Authorization": `Bearer ${token_url.token}`
-                }*/
-            });
-            
-            yield put(listarCarrinhoSucesso(response.data));
-    } catch(error) {        
-        yield put(listarCarrinhoError(error));
-    }
-}
+import {  } from "./slice";
 
 export default all([
-    takeEvery('pedido/listarCarrinho', listarCarrinho)
 ]);

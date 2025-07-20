@@ -1,12 +1,28 @@
 import { all, takeEvery, put, call } from "redux-saga/effects";
 import { AnyAction } from "redux-saga";
 
-import { adicionarCarrinhoSucesso, adicionarCarrinhoError, retirarItemSucesso, retirarItemErro, 
+import { listarCarrinhoSucesso, listarCarrinhoError,
+         adicionarCarrinhoSucesso, adicionarCarrinhoError, retirarItemSucesso, retirarItemErro, 
          removerCarrinhoSucesso, removerCarrinhoErro } from "./slice";
 
+import { ICarrinho } from "../../interfaces/carrinho/carrinho.interface";
 import { ICarrinhoItem } from "../../interfaces/carrinho/carrinhoitem.interface";
 
 import axios, { AxiosResponse } from 'axios';
+
+function* listarCarrinho(): Generator<any, void, AxiosResponse<ICarrinho[]>> {
+    try {               
+            let response = yield call(axios.get,`http://localhost:8000/api/erp_gerenciamento/carrinho`,{
+            /* headers: {
+                    "Authorization": `Bearer ${token_url.token}`
+                }*/
+            });
+            console.log(response.data);
+            yield put(listarCarrinhoSucesso(response.data));
+    } catch(error) {        
+        yield put(listarCarrinhoError(error));
+    }
+}
 
 function* adicionarCarrinho(action: AnyAction) {
     try {        
@@ -52,6 +68,7 @@ function* removerCarrinho()  {
 }
 
 export default all([
+    takeEvery('carrinho/listarCarrinho', listarCarrinho),
     takeEvery('carrinho/adicionarCarrinho', adicionarCarrinho),
     takeEvery('carrinho/retirarItem', retirarItem),
     takeEvery('carrinho/removerCarrinho', removerCarrinho),

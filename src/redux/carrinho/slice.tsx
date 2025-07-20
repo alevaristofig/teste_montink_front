@@ -3,12 +3,24 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     loading: false,
+    produtos: []
 }
 
 export const carrinhoSlice = createSlice({
     name: 'carrinho',
     initialState,
     reducers: {
+        listarCarrinho: (state) => {            
+            state.loading = true;
+        },
+        listarCarrinhoSucesso: (state,action) => {
+            state.loading = false;
+            state.produtos = action.payload;
+        },
+        listarCarrinhoError: (state,action) => {
+            state.loading = false;
+            toast.error(action.payload);
+        },
         retirarItem: (state,action) => {
             state.loading = true;
         },
@@ -46,7 +58,8 @@ export const carrinhoSlice = createSlice({
 })
 
 
-export const { adicionarCarrinho, adicionarCarrinhoSucesso, adicionarCarrinhoError, retirarItem, 
+export const { listarCarrinho, listarCarrinhoSucesso, listarCarrinhoError,
+               adicionarCarrinho, adicionarCarrinhoSucesso, adicionarCarrinhoError, retirarItem, 
                retirarItemSucesso, retirarItemErro, removerCarrinho,
                removerCarrinhoSucesso, removerCarrinhoErro } = carrinhoSlice.actions;
 
