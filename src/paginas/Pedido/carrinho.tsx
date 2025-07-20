@@ -11,7 +11,6 @@ import { IoTrashBinOutline } from "react-icons/io5";
 
 import { RootState } from "../../redux/root-reducer";
 
-import Alert  from 'react-bootstrap/Alert';
 import Table from 'react-bootstrap/Table';
 import Button  from 'react-bootstrap/Button';
 
@@ -42,6 +41,14 @@ const Carrinho = (): ReactElement => {
         setTimeout(() => {
             window.location.reload()
         }, 7000);
+    }
+
+    const formatarData = (data: string) => {
+        const dataFormatada = new Date(data);
+
+        const dataExibicao = dataFormatada.toLocaleString("pt-BR");
+
+        return dataExibicao.replace(',','');
     }
 
     return (
@@ -90,7 +97,7 @@ const Carrinho = (): ReactElement => {
                                                         <td>{c['quantidade']}</td>
                                                         <td>{c['valor_total']}</td>  
                                                         <td>{c['status']}</td>                                                                                                                    
-                                                        <td>{c['data']}</td>   
+                                                        <td>{formatarData(c['data'])}</td>   
                                                         <td>
                                                             <button 
                                                                 className="btn btn-danger float-start me-1 text-white"
