@@ -3,9 +3,11 @@ import { AnyAction } from "redux-saga";
 
 import { retirarItemSucesso, retirarItemErro } from "./slice";
 
+import { ICarrinhoItem } from "../../interfaces/carrinho/carrinhoitem.interface";
+
 import axios, { AxiosResponse } from 'axios';
 
-function* retirarItem(action: AnyAction): Generator<any, void, AxiosResponse<ICupom[]>>  {
+function* retirarItem(action: AnyAction): Generator<any, void, AxiosResponse<ICarrinhoItem[]>>  {
   try {   
         yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/carrinho`,action.payload,{
            /* headers: {
