@@ -16,10 +16,10 @@ function* listarCarrinho(): Generator<any, void, AxiosResponse<ICarrinho[]>> {
             /* headers: {
                     "Authorization": `Bearer ${token_url.token}`
                 }*/
-            });
-            console.log(response.data);
+            });    
+                 
             yield put(listarCarrinhoSucesso(response.data));
-    } catch(error) {        
+    } catch(error) {              
         yield put(listarCarrinhoError(error));
     }
 }
@@ -41,7 +41,7 @@ function* adicionarCarrinho(action: AnyAction) {
 
 function* retirarItem(action: AnyAction): Generator<any, void, AxiosResponse<ICarrinhoItem[]>>  {
   try {   
-        yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/carrinho`,action.payload,{
+        yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/carrinhoitem`,action.payload,{
            /* headers: {
                 "Authorization": `Bearer ${token_url.token}`
             }*/

@@ -15,7 +15,7 @@ import Button  from 'react-bootstrap/Button';
 import Cabecalho from "../../components/Cabecalho";
 import Menu from "../../components/Menu";
 
-const Carrinho = (): ReactElement => {
+const ConfirmarPedido = (): ReactElement => {
 
     const dispatch = useDispatch();
 
@@ -57,10 +57,7 @@ const Carrinho = (): ReactElement => {
                 <div className="container-fluid">
                         <div>
                             <ToastContainer />
-                        </div>
-                        <div className='me-2 float-start'>
-                            <Button href='/confirmarpedido' className='me-2 mb-4 float-start'>Confirmar Compra</Button>
-                        </div>
+                        </div>                        
                         {
                             loading
                             ?
@@ -82,9 +79,8 @@ const Carrinho = (): ReactElement => {
                                                 <th scope='col'>Quantidade</th>
                                                 <th scope='col'>Preço</th>                                                
                                                 <th scope='col'>Status</th>
-                                                <th scope='col'>Data</th>
-                                                <th scope='col'></th>
-                                            </tr>
+                                                <th scope='col'>Data</th>                                                
+                                            </tr>                                            
                                         </thead>
                                         <tbody>
                                             {
@@ -95,18 +91,13 @@ const Carrinho = (): ReactElement => {
                                                         <td>{c['quantidade']}</td>
                                                         <td>{c['valor_unitario']}</td>  
                                                         <td>{c['status']}</td>                                                                                                                    
-                                                        <td>{formatarData(c['data'])}</td>   
-                                                        <td>
-                                                            <button 
-                                                                className="btn btn-danger float-start me-1 text-white"
-                                                                title='Remover produto'
-                                                                onClick={() => removerProduto(c['produto_id'],c['data'],c['nome'])}>
-                                                                <IconeRemover />
-                                                            </button>
-                                                        </td>                       
+                                                        <td>{formatarData(c['data'])}</td>                                                                                
                                                     </tr>
                                                 ))
                                             }
+                                            <tr>
+                                                <td>Total</td>
+                                            </tr>
                                         </tbody>
                                     </Table>                                
                         }
@@ -117,4 +108,4 @@ const Carrinho = (): ReactElement => {
     )
 }
 
-export default Carrinho; 
+export default ConfirmarPedido; 
