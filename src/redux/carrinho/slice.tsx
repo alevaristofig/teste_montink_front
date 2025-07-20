@@ -9,19 +9,33 @@ export const carrinhoSlice = createSlice({
     name: 'carrinho',
     initialState,
     reducers: {
-        retirarItem: (state) => {
+        retirarItem: (state,action) => {
             state.loading = true;
         },
         retirarItemSucesso: (state) => {
-            state.loading = false;            
+            state.loading = false;  
+            toast.success("Produto retirado do carrinho com Sucesso!");          
         },
-        retirarItemErro: (state) => {
-            state.loading = false;            
+        retirarItemErro: (state,action) => {
+            state.loading = false;  
+            toast.error(action.payload);          
+        },
+        removerCarrinho: (state) => {
+            state.loading = true;
+        },
+        removerCarrinhoSucesso: (state) => {
+            state.loading = false;  
+            toast.success("Produto retirado do carrinho com Sucesso!");          
+        },
+        removerCarrinhoErro: (state,action) => {
+            state.loading = false;  
+            toast.error(action.payload);          
         },
     }
 })
 
 
-export const { retirarItem, retirarItemSucesso, retirarItemErro } = carrinhoSlice.actions;
+export const { retirarItem, retirarItemSucesso, retirarItemErro, removerCarrinho,
+               removerCarrinhoSucesso, removerCarrinhoErro } = carrinhoSlice.actions;
 
 export default carrinhoSlice.reducer;

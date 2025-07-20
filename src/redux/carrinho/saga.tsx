@@ -1,7 +1,7 @@
 import { all, takeEvery, put, call } from "redux-saga/effects";
 import { AnyAction } from "redux-saga";
 
-import { retirarItemSucesso, retirarItemErro } from "./slice";
+import { retirarItemSucesso, retirarItemErro, removerCarrinhoSucesso, removerCarrinhoErro } from "./slice";
 
 import { ICarrinhoItem } from "../../interfaces/carrinho/carrinhoitem.interface";
 
@@ -21,6 +21,21 @@ function* retirarItem(action: AnyAction): Generator<any, void, AxiosResponse<ICa
   }
 }
 
+function* removerCarrinho()  {
+  try {   
+        yield call(axios.delete,`http://localhost:8000/api/erp_gerenciamento/carrinho`,{
+           /* headers: {
+                "Authorization": `Bearer ${token_url.token}`
+            }*/
+        });
+
+        yield put(removerCarrinhoSucesso());
+  } catch(error: any) {    
+     yield put(removerCarrinhoErro(error.response.data.message));
+  }
+}
+
 export default all([
     takeEvery('carrinho/retirarItem', retirarItem),
+    takeEvery('carrinho/removerCarrinho', removerCarrinho),
 ]);

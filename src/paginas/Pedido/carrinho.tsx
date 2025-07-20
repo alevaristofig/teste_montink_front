@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import { listarCarrinho } from "../../redux/pedido/slice";
+import { retirarItem } from "../../redux/carrinho/slice";
 
 import { IoTrashBinOutline } from "react-icons/io5";
 
@@ -30,7 +31,17 @@ const Carrinho = (): ReactElement => {
     },[]);
 
     const removerProduto = (produto_id: number, data: string, nome: string) => {
+        let dados = {
+            "produto_id": produto_id,
+            "nome": nome,
+            "data": data
+        } 
         
+        dispatch(retirarItem(dados));
+
+        setTimeout(() => {
+            window.location.reload()
+        }, 7000);
     }
 
     return (

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import { listar, deletar } from "../../redux/produto/slice";
+import { removerCarrinho } from "../../redux/carrinho/slice";
 
 import { PiNotePencilLight } from "react-icons/pi";
 import { IoTrashBinOutline } from "react-icons/io5";
@@ -51,6 +52,10 @@ const Produto = (): ReactElement => {
         modal!.classList.remove('d-none')     
     }
 
+    const removerCarrinhoDados = () => {
+        dispatch(removerCarrinho());
+    }
+
     return (
         <>
             <ModalPedido id={id}/>
@@ -66,6 +71,9 @@ const Produto = (): ReactElement => {
                         </div>
                         <div className='me-2 float-start'>
                             <Button href='/carrinho' className='btn btn-info me-2 mb-4 float-start text-white'>Ver Carrinho</Button>
+                        </div>
+                        <div className='me-2 float-start'>
+                            <Button onClick={() => removerCarrinhoDados()} className='btn btn-warning me-2 mb-4 float-start text-white'>Esvaziar Carrinho</Button>
                         </div>
                         {
                             loading
