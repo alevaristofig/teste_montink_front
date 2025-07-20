@@ -20,6 +20,15 @@ export const PedidoSlice = createSlice({
             state.loading = false;
             toast.error(action.payload);
         },
+        listarCarrinho: (state) => {
+            state.loading = true;
+        },
+        listarCarrinhoSucesso: (state,action) => {
+            state.loading = true;
+        },
+        listarCarrinhoError: (state,action) => {
+            state.loading = true;
+        }
     }
 })
 
