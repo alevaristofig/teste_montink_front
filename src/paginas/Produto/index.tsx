@@ -56,6 +56,14 @@ const Produto = (): ReactElement => {
         dispatch(removerCarrinho());
     }
 
+    const formatarData = (data: string) => {
+        const dataFormatada = new Date(data);
+
+        const dataExibicao = dataFormatada.toLocaleString("pt-BR");
+
+        return dataExibicao.substring(0,10);
+    }
+
     return (
         <>
             <ModalPedido id={id}/>
@@ -109,7 +117,9 @@ const Produto = (): ReactElement => {
                                                         <td>{p['preco']}</td>  
                                                         <td>{p['variacoes']}</td>
                                                         <td>{p['estoques']['quantidade']}</td>        
-                                                        <td>{p['created_at']}</td>
+                                                        <td>{
+                                                             formatarData(p['created_at'])
+                                                            }</td>
                                                         <td>
                                                             <Link to={`/editarproduto/${p['id']}`} 
                                                                 className="btn btn-info float-start me-1 text-white"
