@@ -23,15 +23,15 @@ function* realizarPedido(action: AnyAction) {
 }
 
 function* listarCarrinho(): Generator<any, void, AxiosResponse<ICarrinho[]>> {
-    try {        
+    try {               
             let response = yield call(axios.get,`http://localhost:8000/api/erp_gerenciamento/pedido`,{
             /* headers: {
                     "Authorization": `Bearer ${token_url.token}`
                 }*/
             });
-
+            
             yield put(listarCarrinhoSucesso(response.data));
-    } catch(error) {
+    } catch(error) {        
         yield put(listarCarrinhoError(error));
     }
 }

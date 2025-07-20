@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     loading: false,
+    pedidos: [],
 }
 
 export const PedidoSlice = createSlice({
@@ -24,10 +25,12 @@ export const PedidoSlice = createSlice({
             state.loading = true;
         },
         listarCarrinhoSucesso: (state,action) => {
-            state.loading = true;
+            state.loading = false;
+            state.pedidos = action.payload;
         },
         listarCarrinhoError: (state,action) => {
-            state.loading = true;
+            state.loading = false;
+            toast.error(action.payload);
         }
     }
 })

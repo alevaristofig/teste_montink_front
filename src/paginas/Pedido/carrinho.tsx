@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
-import { listar, deletar } from "../../redux/cupom/slice";
+import { listarCarrinho } from "../../redux/pedido/slice";
 
-import { PiNotePencilLight } from "react-icons/pi";
 import { IoTrashBinOutline } from "react-icons/io5";
 
 import { RootState } from "../../redux/root-reducer";
@@ -21,24 +20,16 @@ import Menu from "../../components/Menu";
 const Carrinho = (): ReactElement => {
 
     const dispatch = useDispatch();
-    const { loading, cupons } = useSelector((state: RootState) => state.cupom);
 
-    const IconeEditar = PiNotePencilLight as unknown as React.FC<React.SVGProps<SVGSVGElement>>;  
-    const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
+     const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
+
+    const { loading, pedidos } = useSelector((state: RootState) => state.pedido);
 
     useEffect(() => {
-         dispatch(listar());
+         dispatch(listarCarrinho());
     },[]);
 
-    const removerCupom = (id: number) => {
-        dispatch(deletar({
-            'id': id
-        }));
-
-        setTimeout(() => {
-            window.location.reload()
-        }, 7000);
-    } 
+    const removerProduto = (id: number) => {}
 
     return (
         <>
@@ -50,7 +41,7 @@ const Carrinho = (): ReactElement => {
                             <ToastContainer />
                         </div>
                         <div className='me-2 float-start'>
-                            <Button href='/cadastrocupom' className='me-2 mb-4 float-start'>Novo Cupom</Button>
+                            <Button href='/cadastrocupom' className='me-2 mb-4 float-start'>Confirmar Compra</Button>
                         </div>
                         {
                             loading
@@ -59,7 +50,7 @@ const Carrinho = (): ReactElement => {
                                     <span className="visually-hidden">Loading...</span>
                                 </div>
                             :                            
-                                cupons.length === 0
+                                pedidos.length === 0
                                 ?
                                     <Alert variant='info'>
                                         Não existem dados para exibir
@@ -70,38 +61,36 @@ const Carrinho = (): ReactElement => {
                                         <thead>
                                             <tr>
                                                 <th scope='col'>Nome</th>                        
-                                                <th scope='col'>Desconto</th>
-                                                <th scope='col'>Validade</th>                                                
+                                                <th scope='col'>Quantidade</th>
+                                                <th scope='col'>Valor total</th>                                                
+                                                <th scope='col'>Status</th>
+                                                <th scope='col'>Data</th>
                                                 <th scope='col'></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {
-                                                cupons.map((c,i) => 
+                                                pedidos.map((c,i) => 
                                                 (
-                                                    <tr key={c['id']}>
+                                                    <tr key={i}>
                                                         <td>{c['nome']}</td>
-                                                        <td>{c['desconto']}</td>  
-                                                        <td>{c['validade']}</td>                                                                                                                    
+                                                        <td>{c['quantidade']}</td>
+                                                        <td>{c['valor_total']}</td>  
+                                                        <td>{c['status']}</td>                                                                                                                    
+                                                        <td>{c['data']}</td>   
                                                         <td>
-                                                            <Link to={`/editarcupom/${c['id']}`} 
-                                                                className="btn btn-info float-start me-1 text-white"
-                                                                title='Editar'>
-                                                                <IconeEditar />        
-                                                            </Link>
                                                             <button 
-                                                                className="btn btn-danger float-start text-white"
-                                                                title='Remover'
-                                                                onClick={() => removerCupom(c['id'])}>
+                                                                className="btn btn-danger float-start me-1 text-white"
+                                                                title='Remover produto'
+                                                                onClick={() => removerProduto(c['produto_id'])}>
                                                                 <IconeRemover />
                                                             </button>
-                                                        </td>                         
+                                                        </td>                       
                                                     </tr>
                                                 ))
                                             }
                                         </tbody>
-                                    </Table>
-                                
+                                    </Table>                                
                         }
                     
                 </div>
