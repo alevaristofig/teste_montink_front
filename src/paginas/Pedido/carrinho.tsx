@@ -65,9 +65,9 @@ const Carrinho = (): ReactElement => {
                             :                            
                                 pedidos.length === 0
                                 ?
-                                    <Alert variant='info'>
+                                    <div className='me-2 float-start w-100'>
                                         Não existem dados para exibir
-                                    </Alert>
+                                    </div>
                                 :
                                                                    
                                     <Table className="responsive striped bordered hover">
