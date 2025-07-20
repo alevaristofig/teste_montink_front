@@ -7,6 +7,7 @@ import EditarProduto from "./paginas/Produto/editarProduto";
 import Cupom from "./paginas/Cupom";
 import CadastroCupom from "./paginas/Cupom/cadastroCupom";
 import EditarCupom from "./paginas/Cupom/editarCupom";
+import Carrinho from "./paginas/Pedido/Carrinho";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
     {
         path: '/editarcupom/:id',
         element: <EditarCupom />
+    },
+    {
+        path: '/carrinho/',
+        element: <Carrinho />
     },
 ]);
 

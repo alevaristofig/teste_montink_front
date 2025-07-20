@@ -1,13 +1,13 @@
+
 import { ReactElement, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
-import { listar, deletar } from "../../redux/produto/slice";
+import { listar, deletar } from "../../redux/cupom/slice";
 
 import { PiNotePencilLight } from "react-icons/pi";
 import { IoTrashBinOutline } from "react-icons/io5";
-import { FcAddRow } from "react-icons/fc";
 
 import { RootState } from "../../redux/root-reducer";
 
@@ -17,24 +17,20 @@ import Button  from 'react-bootstrap/Button';
 
 import Cabecalho from "../../components/Cabecalho";
 import Menu from "../../components/Menu";
-import ModalPedido from "../../components/Modal/modalPedido";
 
-const Produto = (): ReactElement => {
+const Carrinho = (): ReactElement => {
 
     const dispatch = useDispatch();
-    const { loading, produtos } = useSelector((state: RootState) => state.produto);
-
-    const [id,setId] = useState<number>();
+    const { loading, cupons } = useSelector((state: RootState) => state.cupom);
 
     const IconeEditar = PiNotePencilLight as unknown as React.FC<React.SVGProps<SVGSVGElement>>;  
     const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
-    const IconeCarrinho = FcAddRow as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
     useEffect(() => {
          dispatch(listar());
     },[]);
 
-    const removerProduto = (id: number) => {
+    const removerCupom = (id: number) => {
         dispatch(deletar({
             'id': id
         }));
@@ -44,16 +40,8 @@ const Produto = (): ReactElement => {
         }, 7000);
     } 
 
-    const mostrarDivPedido = (id: number) => {
-        setId(id);
-        const modal = document.querySelector("#modal");
-
-        modal!.classList.remove('d-none')     
-    }
-
     return (
         <>
-            <ModalPedido id={id}/>
             <Cabecalho />
             <div className='d-flex mt-3'>
                 <Menu />
@@ -62,10 +50,7 @@ const Produto = (): ReactElement => {
                             <ToastContainer />
                         </div>
                         <div className='me-2 float-start'>
-                            <Button href='/cadastroproduto' className='me-2 mb-4 float-start'>Novo Produto</Button>
-                        </div>
-                        <div className='me-2 float-start'>
-                            <Button href='/carrinho' className='btn btn-info me-2 mb-4 float-start text-white'>Ver Carrinho</Button>
+                            <Button href='/cadastrocupom' className='me-2 mb-4 float-start'>Novo Cupom</Button>
                         </div>
                         {
                             loading
@@ -74,7 +59,7 @@ const Produto = (): ReactElement => {
                                     <span className="visually-hidden">Loading...</span>
                                 </div>
                             :                            
-                                produtos.length === 0
+                                cupons.length === 0
                                 ?
                                     <Alert variant='info'>
                                         Não existem dados para exibir
@@ -85,40 +70,30 @@ const Produto = (): ReactElement => {
                                         <thead>
                                             <tr>
                                                 <th scope='col'>Nome</th>                        
-                                                <th scope='col'>Preço</th>
-                                                <th scope='col'>Variações</th>
-                                                <th scope='col'>Estoque</th>
-                                                <th scope='col'>Data</th>
+                                                <th scope='col'>Desconto</th>
+                                                <th scope='col'>Validade</th>                                                
                                                 <th scope='col'></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {
-                                                produtos.map((p: any,i: number) => 
+                                                cupons.map((c,i) => 
                                                 (
-                                                    <tr key={p['id']}>
-                                                        <td>{p['nome']}</td>
-                                                        <td>{p['preco']}</td>  
-                                                        <td>{p['variacoes']}</td>
-                                                        <td>{p['estoques']['quantidade']}</td>        
-                                                        <td>{p['created_at']}</td>
+                                                    <tr key={c['id']}>
+                                                        <td>{c['nome']}</td>
+                                                        <td>{c['desconto']}</td>  
+                                                        <td>{c['validade']}</td>                                                                                                                    
                                                         <td>
-                                                            <Link to={`/editarproduto/${p['id']}`} 
+                                                            <Link to={`/editarcupom/${c['id']}`} 
                                                                 className="btn btn-info float-start me-1 text-white"
                                                                 title='Editar'>
                                                                 <IconeEditar />        
                                                             </Link>
                                                             <button 
-                                                                className="btn btn-danger float-start me-1 text-white"
+                                                                className="btn btn-danger float-start text-white"
                                                                 title='Remover'
-                                                                onClick={() => removerProduto(p['id'])}>
+                                                                onClick={() => removerCupom(c['id'])}>
                                                                 <IconeRemover />
-                                                            </button>
-                                                            <button 
-                                                                className="btn btn-success float-start text-white"
-                                                                title='Comprar'
-                                                                onClick={() => mostrarDivPedido(p['id'])}>
-                                                                <IconeCarrinho />
                                                             </button>
                                                         </td>                         
                                                     </tr>
@@ -135,4 +110,4 @@ const Produto = (): ReactElement => {
     )
 }
 
-export default Produto; 
+export default Carrinho; 
