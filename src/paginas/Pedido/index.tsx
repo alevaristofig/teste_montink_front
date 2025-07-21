@@ -1,15 +1,14 @@
 import { ReactElement, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import { listar } from "../../redux/pedido/slice";
+import { atualizarStatus } from "../../redux/pedido/slice";
 
 import { RootState } from "../../redux/root-reducer";
 
-import Alert  from 'react-bootstrap/Alert';
 import Table from 'react-bootstrap/Table';
-import Button  from 'react-bootstrap/Button';
+import Form  from 'react-bootstrap/Form';
 
 import Cabecalho from "../../components/Cabecalho";
 import Menu from "../../components/Menu";
@@ -31,7 +30,22 @@ const Pedido = (): ReactElement => {
 
         const dataExibicao = dataFormatada.toLocaleString("pt-BR");
 
-        return dataExibicao.substring(0,10);
+        return dataExibicao.replace(',','');
+    }
+
+    const atualizarStatusDados = async (value: any) => {
+        if (window.confirm("Deseja mudar o status do pedido?")) {           
+            let dadosStatus = value.split('|');
+
+            dispatch(atualizarStatus({
+                'id': dadosStatus[1],
+                'status': dadosStatus[0]
+            }));
+
+            setTimeout(() => {
+                window.location.reload()
+            }, 7000);
+        }
     }
 
     return (
@@ -62,11 +76,10 @@ const Pedido = (): ReactElement => {
                                         <thead>
                                             <tr>
                                                 <th scope='col'>Nome</th>                        
-                                                <th scope='col'>Preço</th>
-                                                <th scope='col'>Variações</th>
-                                                <th scope='col'>Estoque</th>
+                                                <th scope='col'>Quantidade</th>
+                                                <th scope='col'>Valor</th>                                                
                                                 <th scope='col'>Data</th>
-                                                <th scope='col'></th>
+                                                <th scope='col'>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -74,14 +87,28 @@ const Pedido = (): ReactElement => {
                                                 pedidos.map((p: any,i: number) => 
                                                 (
                                                     <tr key={p['id']}>
-                                                        <td>{p['nome']}</td>
-                                                        <td>{p['preco']}</td>  
-                                                        <td>{p['variacoes']}</td>
-                                                        <td>{p['estoques']['quantidade']}</td>        
-                                                        <td>{
-                                                             formatarData(p['created_at'])
+                                                        <td>
+                                                            {
+                                                                (p as any).produtos.map((pn: any, t: number) =>(
+                                                                    <>
+                                                                        {pn['nome']}&nbsp;                                                                  
+                                                                    </>
+                                                                ))                                                            
                                                             }
-                                                        </td>                        
+                                                        </td> 
+                                                        <td>{p['quantidade']}</td>
+                                                        <td>{p['valor_total']}</td> 
+                                                        <td>{formatarData(p['created_at'])}</td>  
+                                                        <td>
+                                                            <Form.Select
+                                                                onChange={(e) => atualizarStatusDados(e.target.value)}
+                                                            >
+                                                                <option value={`Pendente|${p['id']}`} selected={p['status'] === 'Pendente'}>Pendente</option>
+                                                                <option value={`Enviado|${p['id']}`} selected={p['status'] === 'Enviado'}>Enviado</option>
+                                                                <option value={`Cancelado|${p['id']}`} selected={p['status'] === 'Cancelado'}>Cancelado</option>
+                                                                <option value={`Concluído|${p['id']}`} selected={p['status'] === 'Concluído'}>Concluído</option>                                                                    
+                                                            </Form.Select>
+                                                        </td>                   
                                                     </tr>
                                                 ))
                                             }

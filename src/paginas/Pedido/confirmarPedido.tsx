@@ -99,9 +99,9 @@ const ConfirmarPedido = (): ReactElement => {
         }
 
         dispatch(confirmar(dados));
-       // dispatch(removerCarrinho());
+        dispatch(removerCarrinho());
 
-       // navigate('/pedido', {replace: true});
+        navigate('/pedido', {replace: true});
         
     }
 

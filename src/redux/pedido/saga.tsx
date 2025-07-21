@@ -3,7 +3,9 @@ import { AnyAction } from "redux-saga";
 
 import axios, { AxiosResponse } from 'axios';
 
-import { listarSucesso, listarErro, confirmarSucesso, confirmarError } from "./slice";
+import { listarSucesso, listarErro, confirmarSucesso, confirmarError, atualizarStatusSucesso,
+         atualizarStatusError
+       } from "./slice";
 
 import { IPedido } from "../../interfaces/pedido/pedido.interface";
 
@@ -31,12 +33,34 @@ function* confirmar(action: AnyAction): Generator<any, void, AxiosResponse<IPedi
         });
 
         yield put(confirmarSucesso());
-  } catch(error: any) {     
+  } catch(error: any) {   
+    console.log(error);  
     yield put(confirmarError(error.response.data.msg));
   }
+}
+
+function* atualizarStatus(action: AnyAction): Generator<any, void, AxiosResponse<IPedido[]>>  {
+    try {
+
+        let dados = {
+            'status': action.payload.status          
+        }        
+
+        yield call(axios.patch,`http://localhost:8000/api/erp_gerenciamento/pedido/${action.payload.id}`,dados,{
+           /* headers: {
+                "Authorization": `Bearer ${token_url.token}`
+            }*/
+       });
+
+        yield put(atualizarStatusSucesso());
+
+    } catch(error: any) {    
+        yield put(atualizarStatusError(error.response.data.message));
+    }
 }
 
 export default all([
     takeEvery('pedido/listar', listar),
     takeEvery('pedido/confirmar', confirmar),
+    takeEvery('pedido/atualizarStatus', atualizarStatus),
 ]);

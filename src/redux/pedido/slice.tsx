@@ -26,14 +26,28 @@ export const PedidoSlice = createSlice({
         },
         confirmarSucesso: (state) => {
             state.loading = false;
+            toast.success("Pedido registrado com Sucesso!");
         },
         confirmarError: (state,action) => {
+            state.loading = false; 
+            toast.error(action.payload.message);           
+        },
+         atualizarStatus: (state,action) => {
+            state.loading = true;
+        },
+        atualizarStatusSucesso: (state) => {
+            state.loading = false;
+            toast.success("Pedido atualizado com Sucesso!");
+        },
+        atualizarStatusError: (state,action) => {
             state.loading = false; 
             toast.error(action.payload.message);           
         },       
     }
 })
 
-export const { listar, listarSucesso, listarErro, confirmar, confirmarSucesso, confirmarError } = PedidoSlice.actions;
+export const { listar, listarSucesso, listarErro, confirmar, confirmarSucesso, confirmarError,
+               atualizarStatus, atualizarStatusSucesso, atualizarStatusError
+             } = PedidoSlice.actions;
 
 export default PedidoSlice.reducer;
