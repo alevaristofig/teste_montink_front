@@ -59,7 +59,7 @@ const Carrinho = (): ReactElement => {
                             <ToastContainer />
                         </div>
                         <div className='me-2 float-start'>
-                            <Button href='/confirmarpedido' className='me-2 mb-4 float-start'>Confirmar Compra</Button>
+                            <Button href='/confirmarpedido' className='me-2 mb-4 float-start'>Revisar Compra</Button>
                         </div>
                         {
                             loading

@@ -1,9 +1,10 @@
 
 import { ReactElement, useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { listarCarrinho } from "../../redux/carrinho/slice";
+import { listar } from "../../redux/cupom/slice";
 
 import usePedido from "../../hook/pedido/pedidoHook";
 
@@ -36,6 +37,7 @@ const ConfirmarPedido = (): ReactElement => {
     const dispatch = useDispatch();     
 
     const { loading, produtos } = useSelector((state: RootState) => state.carrinho);
+    const { cupons } = useSelector((state: RootState) => state.cupom);
 
     const { pesquisarEndereco } = usePedido();
 
@@ -46,9 +48,11 @@ const ConfirmarPedido = (): ReactElement => {
     const [complemento,setComplemento] = useState<string>('');
     const [cidade,setCidade] = useState<string>('');
     const [estado,setEstado] = useState<string>('');
+    const [valorTotal,setValortotal] = useState<number>();
     
     useEffect(() => {
          dispatch(listarCarrinho());
+         dispatch(listar());
     },[]);
 
     const formatarData = (data: string) => {
@@ -64,11 +68,15 @@ const ConfirmarPedido = (): ReactElement => {
     }
 
     const somarValores = (dados: TProduto[]) => {
-        return dados.reduce((total: number, item:TProduto) => total + Number(item.valor_unitario), 0);
+        let total = dados.reduce((total: number, item:TProduto) => total + Number(item.valor_unitario) * Number(item.quantidade), 0);
+
+       // setValortotal(total);
+
+        return total;
     }
 
     const calcularFrete = (dados: TProduto[]) => {
-        let total = dados.reduce((total: number, item:TProduto) => total + Number(item.valor_unitario), 0);
+        let total = dados.reduce((total: number, item:TProduto) => total + Number(item.valor_unitario) * Number(item.quantidade), 0);
 
         if(total >= SubTotalFrete.TOTAL1 && total <= SubTotalFrete.TOTAL2) {
             return Frete.FRETE1;
@@ -87,6 +95,36 @@ const ConfirmarPedido = (): ReactElement => {
         setCidade(resp.localidade);
         setEstado(resp.uf);
     }
+
+    const validarCupom = (i: any) => {
+        let indice = cupons.findIndex((c: any) => c.id == i);
+        let dataAtual = new Date().getTime();
+        let dataValidade = new Date(cupons[indice]['validade']).getTime();
+
+        if(dataValidade <= dataAtual) {
+            let divTotal = document.getElementById("divTotal");
+            //let total = divTotal?.innerHTML; 
+
+            /*if (divTotal) {
+                divTotal.innerHTML = `${valorTotal}`;
+            }*/
+
+            toast.info("Desconto não aplicado, cupom expirado");
+        } else {
+            let divTotal = document.getElementById("divTotal");
+            let total = Number(divTotal?.innerHTML);            
+            let porcentagem = cupons[indice]['desconto'] / 100;
+            let desconto = (total * porcentagem);
+            let totalDesconto = total - desconto;
+
+           if (divTotal) {
+                divTotal.innerHTML = `${total} - ${desconto} = ${totalDesconto}`;
+           }
+
+           toast.success(`Desconto de ${cupons[indice]['desconto']}% aplicado com sucesso!`);
+        }        
+    }
+    
 
     return (
         <>
@@ -134,13 +172,6 @@ const ConfirmarPedido = (): ReactElement => {
                                                         </tr>                                                   
                                                     ))
                                                 }
-                                                <tr className="fw-bold">
-                                                    <td>Totais</td>
-                                                    <td>{somarQuantidade(produtos)}</td>                                                
-                                                    <td>{somarValores(produtos)}</td>
-                                                    <td>Frete</td>
-                                                    <td>{calcularFrete(produtos)}</td>
-                                                </tr>
                                             </tbody>
                                         </Table> 
                                         
@@ -243,7 +274,53 @@ const ConfirmarPedido = (): ReactElement => {
                                                                 </Form.Control>
                                                             </Col>  
                                                         </Row>
-                                                    </Form.Group>
+                                                    </Form.Group>                                                   
+                                                </Card.Body>
+                                            </Card>
+                                            <Card className='mt-4'>
+                                                <Card.Body>                                                    
+                                                    <Form.Group>
+                                                        <Row className="fw-bold">
+                                                            <Col xs={2} className="float-start">
+                                                                <Form.Label>Total de Produtos:</Form.Label>                                             
+                                                            </Col> 
+                                                            <Col id="divQuantidade" xs={1} className="float-start">
+                                                                {somarQuantidade(produtos)}
+                                                            </Col>
+                                                            <Col xs={2} className="float-start">
+                                                                <Form.Label>Valor Total:</Form.Label>                                             
+                                                            </Col> 
+                                                            <Col id="divTotal" xs={1} className="float-start">
+                                                                {somarValores(produtos)}
+                                                            </Col>
+                                                            <Col xs={1} className="float-start">
+                                                                <Form.Label>Frete:</Form.Label>                                             
+                                                            </Col> 
+                                                            <Col id="divFrete" xs={1} className="float-start">
+                                                                {calcularFrete(produtos)}
+                                                            </Col>
+                                                            <Col xs={1} className="float-start">
+                                                                <Form.Label>Cupom:</Form.Label>                                             
+                                                            </Col> 
+                                                            <Col xs={2} className="me-2">
+                                                                <Form.Select
+                                                                    onChange={(e) => validarCupom(e.target.value)}
+                                                                >
+                                                                    <option>Cupom</option>
+                                                                    {
+                                                                         cupons.map((c,i) => (
+                                                                            <option key={c['id']} value={c['id']}>{c['nome']}</option>
+                                                                         ))
+                                                                    }
+                                                                </Form.Select>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row>
+                                                            <Form.Group className='mt-4'>
+                                                                <Button type='submit'>Confirmar</Button>
+                                                            </Form.Group>
+                                                        </Row>
+                                                    </Form.Group>                                                    
                                                 </Card.Body>
                                             </Card>
                                         </Form>
