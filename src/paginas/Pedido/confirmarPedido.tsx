@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import { listarCarrinho } from "../../redux/carrinho/slice";
-import { pesquisarEndereco } from "../../redux/pedido/slice";
+
+import usePedido from "../../hook/pedido/pedidoHook";
 
 import SubTotalFrete from "../../hook/enum/subtotalFrete";
 import Frete from "../../hook/enum/frete";
@@ -35,10 +36,16 @@ const ConfirmarPedido = (): ReactElement => {
     const dispatch = useDispatch();     
 
     const { loading, produtos } = useSelector((state: RootState) => state.carrinho);
-    const { endereco } = useSelector((state: RootState) => state.pedido);
+
+    const { pesquisarEndereco } = usePedido();
 
     const [cep,setCep] = useState<string>('');
-    //const [logradouro,setLogradouro] = useState<string>('');
+    const [logradouro,setLogradouro] = useState<string>('');
+    const [numero,setNumero] = useState<string>('');
+    const [bairro,setBairro] = useState<string>('');
+    const [complemento,setComplemento] = useState<string>('');
+    const [cidade,setCidade] = useState<string>('');
+    const [estado,setEstado] = useState<string>('');
     
     useEffect(() => {
          dispatch(listarCarrinho());
@@ -72,10 +79,13 @@ const ConfirmarPedido = (): ReactElement => {
         }
     }
 
-    const confirmarPedido = () => {
-        dispatch(pesquisarEndereco({
-            'cep': cep
-        }))
+    const confirmarPedido = async() => {
+        let resp = await pesquisarEndereco(cep);
+
+        setLogradouro(resp.logradouro);
+        setBairro(resp.bairro);
+        setCidade(resp.localidade);
+        setEstado(resp.uf);
     }
 
     return (
@@ -155,15 +165,79 @@ const ConfirmarPedido = (): ReactElement => {
                                                                 <Button type='button' onClick={confirmarPedido}>Pesquisar</Button>
                                                             </Col>
                                                         </Row>
-                                                        <Row>
+                                                        <Row className="mb-4">
                                                             <Col xs={1} className="float-start">
                                                                 <Form.Label>Logradouro*:</Form.Label>                                             
                                                             </Col>
+                                                            <Col xs={5} className="float-start me-2">
+                                                                <Form.Control 
+                                                                    type='text' 
+                                                                    onChange={(e) => setLogradouro(e.target.value)}
+                                                                    value={logradouro}
+                                                                    required
+                                                                >
+                                                                </Form.Control>
+                                                            </Col> 
+                                                            <Col xs={2} className="float-start">
+                                                                <Form.Label>Numero*:</Form.Label>                                             
+                                                            </Col> 
                                                             <Col xs={2} className="float-start me-2">
                                                                 <Form.Control 
                                                                     type='text' 
-                                                                   // onChange={(e) => setLogradouro(e.target.value)}
-                                                                    value={endereco.logradouro}
+                                                                    onChange={(e) => setNumero(e.target.value)}
+                                                                    value={numero}
+                                                                    required
+                                                                >
+                                                                </Form.Control>
+                                                            </Col>  
+                                                        </Row>
+                                                        <Row className="mb-4">
+                                                            <Col xs={1} className="float-start">
+                                                                <Form.Label>Bairro*:</Form.Label>                                             
+                                                            </Col>
+                                                            <Col xs={5} className="float-start me-2">
+                                                                <Form.Control 
+                                                                    type='text' 
+                                                                    onChange={(e) => setBairro(e.target.value)}
+                                                                    value={bairro}
+                                                                    required
+                                                                >
+                                                                </Form.Control>
+                                                            </Col> 
+                                                            <Col xs={2} className="float-start">
+                                                                <Form.Label>Complemento*:</Form.Label>                                             
+                                                            </Col> 
+                                                            <Col xs={2} className="float-start me-2">
+                                                                <Form.Control 
+                                                                    type='text' 
+                                                                    onChange={(e) => setComplemento(e.target.value)}
+                                                                    value={complemento}
+                                                                    required
+                                                                >
+                                                                </Form.Control>
+                                                            </Col>  
+                                                        </Row>
+                                                        <Row className="mb-4">
+                                                             <Col xs={1} className="float-start">
+                                                                <Form.Label>Cidade*:</Form.Label>                                             
+                                                            </Col>
+                                                            <Col xs={5} className="float-start me-2">
+                                                                <Form.Control 
+                                                                    type='text' 
+                                                                    onChange={(e) => setCidade(e.target.value)}
+                                                                    value={cidade}
+                                                                    required
+                                                                >
+                                                                </Form.Control>
+                                                            </Col> 
+                                                            <Col xs={2} className="float-start">
+                                                                <Form.Label>Estado*:</Form.Label>                                             
+                                                            </Col> 
+                                                            <Col xs={2} className="float-start me-2">
+                                                                <Form.Control 
+                                                                    type='text' 
+                                                                    onChange={(e) => setEstado(e.target.value)}
+                                                                    value={estado}
                                                                     required
                                                                 >
                                                                 </Form.Control>

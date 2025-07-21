@@ -3,7 +3,7 @@ import axios from "axios";
 const usePedido = () => {
 
     const pesquisarEndereco = async(cep: string) => {
-        let response = axios.get(`https://viacep.com.br/ws/${cep}/json/`,{
+        let response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`,{
                             /*headers: {
                                 "Authorization": `Bearer ${token}`,                
                             }*/
