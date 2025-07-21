@@ -5,16 +5,25 @@ import { toast } from 'react-toastify';
 const initialState = {
     loading: false,
     pedidos: [],
-    endereco: ''
 }
 
 export const PedidoSlice = createSlice({
     name: 'pedido',
     initialState,
-    reducers: {         
+    reducers: {  
+        listar: (state) => {
+            state.loading = true;
+        },
+        listarSucesso: (state,action) => {
+            state.loading = false;
+            state.pedidos = action.payload;
+        },
+        listarErro: (state) => {
+            state.loading = false;            
+        },       
     }
 })
 
-export const { } = PedidoSlice.actions;
+export const { listar, listarSucesso, listarErro } = PedidoSlice.actions;
 
 export default PedidoSlice.reducer;
