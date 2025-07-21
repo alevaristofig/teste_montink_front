@@ -20,10 +20,19 @@ export const PedidoSlice = createSlice({
         },
         listarErro: (state) => {
             state.loading = false;            
+        }, 
+        confirmar: (state) => {
+            state.loading = true;
+        },
+        confirmarSucesso: (state) => {
+            state.loading = false;
+        },
+        confirmarError: (state) => {
+            state.loading = false;            
         },       
     }
 })
 
-export const { listar, listarSucesso, listarErro } = PedidoSlice.actions;
+export const { listar, listarSucesso, listarErro, confirmar, confirmarSucesso, confirmarError } = PedidoSlice.actions;
 
 export default PedidoSlice.reducer;

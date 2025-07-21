@@ -1,5 +1,5 @@
 
-import { ReactElement, useState, useEffect } from "react";
+import { ReactElement, useState, useEffect, FormEvent } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -49,11 +49,56 @@ const ConfirmarPedido = (): ReactElement => {
     const [cidade,setCidade] = useState<string>('');
     const [estado,setEstado] = useState<string>('');
     const [valorTotal,setValortotal] = useState<number>();
+    const [desconto,setDesconto] = useState<number>();
     
     useEffect(() => {
          dispatch(listarCarrinho());
          dispatch(listar());
     },[]);
+
+    const confirmarPedido = async(e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        let endereco = `${logradouro} ${numero} ${bairro} ${complemento} ${cidade} ${estado}`;
+        let produtoInsert = '';
+        let produtosComprados = new Array();
+
+        for(let p in produtos) {
+            produtosComprados[p] = produtos[p]['produto_id'];
+        }
+
+        produtoInsert = JSON.stringify(produtosComprados);
+        let divTotal = document.getElementById("divTotal");
+        let subTotalAux = divTotal?.innerHTML;
+        subTotalAux = subTotalAux?.substring(subTotalAux.indexOf(" = "),subTotalAux.length);
+        let subTotal = Number(subTotalAux?.replace('=',''));
+
+        let divQuantidade = document.getElementById("divQuantidade");
+        let quantidade = Number(divQuantidade?.innerHTML);
+
+        let divFrete = document.getElementById("divFrete");
+        let freteAux = divFrete?.innerHTML;
+        let frete = 0;
+
+        if(freteAux !== Frete.FRETE3) {
+            frete = Number(freteAux);
+        }
+
+        let data = {
+            'id_usuario': 1,
+            'produtos': produtoInsert,
+            'valor_total': subTotal,
+            'quantidade': quantidade,
+            'valor_frete': frete,
+            'desconto': desconto,
+            'endereco': endereco,
+            'status': 'Pendente'
+        }
+
+        //alert(subTotal);
+        console.log(data);
+        
+    }
 
     const formatarData = (data: string) => {
         const dataFormatada = new Date(data);
@@ -87,7 +132,7 @@ const ConfirmarPedido = (): ReactElement => {
         }
     }
 
-    const confirmarPedido = async() => {
+    const pesquisarEnderco = async() => {
         let resp = await pesquisarEndereco(cep);
 
         setLogradouro(resp.logradouro);
@@ -96,7 +141,7 @@ const ConfirmarPedido = (): ReactElement => {
         setEstado(resp.uf);
     }
 
-    const validarCupom = (i: any) => {
+    const validarCupom = (i: any) => {        
         let indice = cupons.findIndex((c: any) => c.id == i);
         let dataAtual = new Date().getTime();
         let dataValidade = new Date(cupons[indice]['validade']).getTime();
@@ -109,6 +154,8 @@ const ConfirmarPedido = (): ReactElement => {
                 divTotal.innerHTML = `${valorTotal}`;
             }*/
 
+            setDesconto(0);
+
             toast.info("Desconto não aplicado, cupom expirado");
         } else {
             let divTotal = document.getElementById("divTotal");
@@ -120,6 +167,8 @@ const ConfirmarPedido = (): ReactElement => {
            if (divTotal) {
                 divTotal.innerHTML = `${total} - ${desconto} = ${totalDesconto}`;
            }
+
+           setDesconto(cupons[indice]['desconto']);
 
            toast.success(`Desconto de ${cupons[indice]['desconto']}% aplicado com sucesso!`);
         }        
@@ -193,7 +242,7 @@ const ConfirmarPedido = (): ReactElement => {
                                                                 </Form.Control>
                                                             </Col>                                                        
                                                             <Col xs={2} className="float-start">
-                                                                <Button type='button' onClick={confirmarPedido}>Pesquisar</Button>
+                                                                <Button type='button' onClick={pesquisarEnderco}>Pesquisar</Button>
                                                             </Col>
                                                         </Row>
                                                         <Row className="mb-4">
@@ -242,8 +291,7 @@ const ConfirmarPedido = (): ReactElement => {
                                                                 <Form.Control 
                                                                     type='text' 
                                                                     onChange={(e) => setComplemento(e.target.value)}
-                                                                    value={complemento}
-                                                                    required
+                                                                    value={complemento}                                                                    
                                                                 >
                                                                 </Form.Control>
                                                             </Col>  

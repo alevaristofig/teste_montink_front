@@ -5,10 +5,6 @@ import { ToastContainer } from 'react-toastify';
 
 import { listar } from "../../redux/pedido/slice";
 
-import { PiNotePencilLight } from "react-icons/pi";
-import { IoTrashBinOutline } from "react-icons/io5";
-import { FcAddRow } from "react-icons/fc";
-
 import { RootState } from "../../redux/root-reducer";
 
 import Alert  from 'react-bootstrap/Alert';
@@ -25,10 +21,6 @@ const Pedido = (): ReactElement => {
     const { loading, pedidos } = useSelector((state: RootState) => state.pedido);
 
     const [id,setId] = useState<number>();
-
-    const IconeEditar = PiNotePencilLight as unknown as React.FC<React.SVGProps<SVGSVGElement>>;  
-    const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
-    const IconeCarrinho = FcAddRow as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
     useEffect(() => {
          dispatch(listar());
@@ -61,9 +53,9 @@ const Pedido = (): ReactElement => {
                             :                            
                                 pedidos.length === 0
                                 ?
-                                    <Alert variant='info'>
+                                    <div className='me-2 float-start w-100'>
                                         Não existem dados para exibir
-                                    </Alert>
+                                    </div>
                                 :
                                                                    
                                     <Table className="responsive striped bordered hover">
