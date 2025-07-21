@@ -8,6 +8,7 @@ import Cupom from "./paginas/Cupom";
 import CadastroCupom from "./paginas/Cupom/cadastroCupom";
 import EditarCupom from "./paginas/Cupom/editarCupom";
 import Carrinho from "./paginas/Carrinho/carrinho";
+import Pedido from "./paginas/Pedido";
 import ConfirmarPedido from "./paginas/Pedido/confirmarPedido";
 
 const router = createBrowserRouter([
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
     {
         path: '/confirmarpedido/',
         element: <ConfirmarPedido />
+    },
+    {
+        path: '/pedido/',
+        element: <Pedido />
     },
 ]);
 
