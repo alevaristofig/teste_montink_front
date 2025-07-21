@@ -51,7 +51,7 @@ export const produtoSlice = createSlice({
         },
         deletarError: (state,action) => {
             state.loading = false;
-             toast.success(action.payload);
+            toast.success(action.payload);
         }
     }
 });

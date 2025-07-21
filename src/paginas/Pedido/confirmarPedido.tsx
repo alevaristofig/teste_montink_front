@@ -1,10 +1,12 @@
 
 import { ReactElement, useState, useEffect, FormEvent } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 
-import { listarCarrinho } from "../../redux/carrinho/slice";
+import { listarCarrinho, removerCarrinho } from "../../redux/carrinho/slice";
 import { listar } from "../../redux/cupom/slice";
+import { confirmar } from "../../redux/pedido/slice";
 
 import usePedido from "../../hook/pedido/pedidoHook";
 
@@ -29,7 +31,7 @@ type TProduto = {
   quantidade: string; 
   valor_unitario: string; 
   status: string;
-  data: string; // ou Date, se for objeto
+  data: string;
 };
 
 const ConfirmarPedido = (): ReactElement => {
@@ -39,6 +41,7 @@ const ConfirmarPedido = (): ReactElement => {
     const { loading, produtos } = useSelector((state: RootState) => state.carrinho);
     const { cupons } = useSelector((state: RootState) => state.cupom);
 
+    const navigate = useNavigate();
     const { pesquisarEndereco } = usePedido();
 
     const [cep,setCep] = useState<string>('');
@@ -84,7 +87,7 @@ const ConfirmarPedido = (): ReactElement => {
             frete = Number(freteAux);
         }
 
-        let data = {
+        let dados = {
             'id_usuario': 1,
             'produtos': produtoInsert,
             'valor_total': subTotal,
@@ -95,8 +98,10 @@ const ConfirmarPedido = (): ReactElement => {
             'status': 'Pendente'
         }
 
-        //alert(subTotal);
-        console.log(data);
+        dispatch(confirmar(dados));
+       // dispatch(removerCarrinho());
+
+       // navigate('/pedido', {replace: true});
         
     }
 
@@ -114,8 +119,6 @@ const ConfirmarPedido = (): ReactElement => {
 
     const somarValores = (dados: TProduto[]) => {
         let total = dados.reduce((total: number, item:TProduto) => total + Number(item.valor_unitario) * Number(item.quantidade), 0);
-
-       // setValortotal(total);
 
         return total;
     }

@@ -31,8 +31,8 @@ function* confirmar(action: AnyAction): Generator<any, void, AxiosResponse<IPedi
         });
 
         yield put(confirmarSucesso());
-  } catch(error: any) {    
-     yield put(confirmarError(error.response.data.message));
+  } catch(error: any) {     
+    yield put(confirmarError(error.response.data.msg));
   }
 }
 

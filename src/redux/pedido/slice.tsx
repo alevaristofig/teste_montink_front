@@ -21,14 +21,15 @@ export const PedidoSlice = createSlice({
         listarErro: (state) => {
             state.loading = false;            
         }, 
-        confirmar: (state) => {
+        confirmar: (state,action) => {
             state.loading = true;
         },
         confirmarSucesso: (state) => {
             state.loading = false;
         },
-        confirmarError: (state) => {
-            state.loading = false;            
+        confirmarError: (state,action) => {
+            state.loading = false; 
+            toast.error(action.payload.message);           
         },       
     }
 })
