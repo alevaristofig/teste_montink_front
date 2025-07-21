@@ -31,14 +31,14 @@ export const cupomSlice = createSlice({
             state.loading = false;
             toast.error(action.payload);
         },
-        atualizar(state,action) {
+        atualizar:(state,action) => {
             state.loading = true;
         },
-        atualizarSucesso(state) {
+        atualizarSucesso:(state) => {
             state.loading = false;
             toast.success("Produto atualizado com Sucesso!");
         },
-        atualizarError(state,action) {
+        atualizarError:(state,action) => {
             state.loading = false;
             toast.error(action.payload);
         },

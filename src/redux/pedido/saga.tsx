@@ -3,7 +3,7 @@ import { AnyAction } from "redux-saga";
 
 import axios, { AxiosResponse } from 'axios';
 
-import {  } from "./slice";
+import { } from "./slice";
 
 export default all([
 ]);

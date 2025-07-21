@@ -66,7 +66,9 @@ const CadastroProduto = (): ReactElement => {
                                                 onChange={(e) => setNome(e.target.value)}
                                                 value={nome}
                                                 required
-                                            ></Form.Control></Col>
+                                            >
+                                            </Form.Control>
+                                        </Col>
                                     </Row>
                                     <Row className="mb-4">
                                         <Col xs={1}>

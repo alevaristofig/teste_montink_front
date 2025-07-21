@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import { listarCarrinho } from "../../redux/carrinho/slice";
+import { pesquisarEndereco } from "../../redux/pedido/slice";
 
 import SubTotalFrete from "../../hook/enum/subtotalFrete";
 import Frete from "../../hook/enum/frete";
@@ -12,6 +13,10 @@ import { RootState } from "../../redux/root-reducer";
 
 import Table from 'react-bootstrap/Table';
 import Button  from 'react-bootstrap/Button';
+import Row  from 'react-bootstrap/Row';
+import Col  from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import Form  from 'react-bootstrap/Form';
 
 import Cabecalho from "../../components/Cabecalho";
 import Menu from "../../components/Menu";
@@ -30,7 +35,11 @@ const ConfirmarPedido = (): ReactElement => {
     const dispatch = useDispatch();     
 
     const { loading, produtos } = useSelector((state: RootState) => state.carrinho);
+    const { endereco } = useSelector((state: RootState) => state.pedido);
 
+    const [cep,setCep] = useState<string>('');
+    //const [logradouro,setLogradouro] = useState<string>('');
+    
     useEffect(() => {
          dispatch(listarCarrinho());
     },[]);
@@ -63,6 +72,12 @@ const ConfirmarPedido = (): ReactElement => {
         }
     }
 
+    const confirmarPedido = () => {
+        dispatch(pesquisarEndereco({
+            'cep': cep
+        }))
+    }
+
     return (
         <>
             <Cabecalho />
@@ -85,39 +100,80 @@ const ConfirmarPedido = (): ReactElement => {
                                         Não existem dados para exibir
                                     </div>
                                 :
-                                                                   
-                                    <Table className="responsive striped bordered hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope='col'>Nome</th>                        
-                                                <th scope='col'>Quantidade</th>
-                                                <th scope='col'>Preço</th>                                                
-                                                <th scope='col'>Status</th>
-                                                <th scope='col'>Data</th>                                                
-                                            </tr>                                            
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                produtos.map((c,i) => 
-                                                (
-                                                    <tr key={i}>
-                                                        <td>{c['nome']}</td>
-                                                        <td>{c['quantidade']}</td>
-                                                        <td>{c['valor_unitario']}</td>  
-                                                        <td>{c['status']}</td>                                                                                                                    
-                                                        <td>{formatarData(c['data'])}</td>                                                                                
-                                                    </tr>                                                   
-                                                ))
-                                            }
-                                            <tr className="fw-bold">
-                                                <td>Totais</td>
-                                                <td>{somarQuantidade(produtos)}</td>                                                
-                                                <td>{somarValores(produtos)}</td>
-                                                <td>Frete</td>
-                                                <td>{calcularFrete(produtos)}</td>
-                                            </tr>
-                                        </tbody>
-                                    </Table>                                
+                                    <>                             
+                                        <Table className="responsive striped bordered hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope='col'>Nome</th>                        
+                                                    <th scope='col'>Quantidade</th>
+                                                    <th scope='col'>Preço</th>                                                
+                                                    <th scope='col'>Status</th>
+                                                    <th scope='col'>Data</th>                                                
+                                                </tr>                                            
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    produtos.map((c,i) => 
+                                                    (
+                                                        <tr key={i}>
+                                                            <td>{c['nome']}</td>
+                                                            <td>{c['quantidade']}</td>
+                                                            <td>{c['valor_unitario']}</td>  
+                                                            <td>{c['status']}</td>                                                                                                                    
+                                                            <td>{formatarData(c['data'])}</td>                                                                                
+                                                        </tr>                                                   
+                                                    ))
+                                                }
+                                                <tr className="fw-bold">
+                                                    <td>Totais</td>
+                                                    <td>{somarQuantidade(produtos)}</td>                                                
+                                                    <td>{somarValores(produtos)}</td>
+                                                    <td>Frete</td>
+                                                    <td>{calcularFrete(produtos)}</td>
+                                                </tr>
+                                            </tbody>
+                                        </Table> 
+                                        
+                                        <Form onSubmit={confirmarPedido}>
+                                            <Card>
+                                                <Card.Body>
+                                                    <Form.Group className='mb-4'>
+                                                        <Row className="mb-4">
+                                                            <Col xs={1} className="float-start">
+                                                                <Form.Label>CEP*:</Form.Label>                                             
+                                                            </Col>
+                                                            <Col xs={2} className="float-start me-2">
+                                                                <Form.Control 
+                                                                    type='text' 
+                                                                    onChange={(e) => setCep(e.target.value)}
+                                                                    value={cep}
+                                                                    required
+                                                                >
+                                                                </Form.Control>
+                                                            </Col>                                                        
+                                                            <Col xs={2} className="float-start">
+                                                                <Button type='button' onClick={confirmarPedido}>Pesquisar</Button>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row>
+                                                            <Col xs={1} className="float-start">
+                                                                <Form.Label>Logradouro*:</Form.Label>                                             
+                                                            </Col>
+                                                            <Col xs={2} className="float-start me-2">
+                                                                <Form.Control 
+                                                                    type='text' 
+                                                                   // onChange={(e) => setLogradouro(e.target.value)}
+                                                                    value={endereco.logradouro}
+                                                                    required
+                                                                >
+                                                                </Form.Control>
+                                                            </Col>  
+                                                        </Row>
+                                                    </Form.Group>
+                                                </Card.Body>
+                                            </Card>
+                                        </Form>
+                                    </>
                         }
                     
                 </div>
