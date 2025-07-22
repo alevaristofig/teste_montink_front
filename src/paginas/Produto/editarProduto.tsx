@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 
 import { atualizar } from "../../redux/produto/slice";
 
-import useProduto from "../../hook/produtoHook";
+import useProduto from "../../hook/produto/produtoHook";
 
 import Row  from 'react-bootstrap/Row';
 import Col  from 'react-bootstrap/Col';

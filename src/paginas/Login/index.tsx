@@ -2,8 +2,6 @@ import { ReactElement, useState, FormEvent } from "react";
 import { useDispatch } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 
-import { salvar } from "../../redux/produto/slice";
-
 import Row  from 'react-bootstrap/Row';
 import Col  from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
@@ -11,7 +9,6 @@ import Form  from 'react-bootstrap/Form';
 import Button  from 'react-bootstrap/Button';
 
 import Cabecalho from "../../components/Cabecalho";
-import Menu from "../../components/Menu";
 
 const Login = (): ReactElement => {
 

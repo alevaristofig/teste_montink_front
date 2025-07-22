@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { adicionarCarrinho } from "../../redux/carrinho/slice";
 
-import useProduto from "../../hook/produtoHook";
+import useProduto from "../../hook/produto/produtoHook";
 
 import Row  from 'react-bootstrap/Row';
 import Col  from 'react-bootstrap/Col';
