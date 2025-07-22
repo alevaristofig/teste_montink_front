@@ -2,7 +2,7 @@
 import { ReactElement, useState, useEffect, FormEvent } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 
 import { listarCarrinho, removerCarrinho } from "../../redux/carrinho/slice";
 import { listar } from "../../redux/cupom/slice";
@@ -51,7 +51,6 @@ const ConfirmarPedido = (): ReactElement => {
     const [complemento,setComplemento] = useState<string>('');
     const [cidade,setCidade] = useState<string>('');
     const [estado,setEstado] = useState<string>('');
-    const [valorTotal,setValortotal] = useState<number>();
     const [desconto,setDesconto] = useState<number>();
     
     useEffect(() => {
@@ -191,10 +190,7 @@ const ConfirmarPedido = (): ReactElement => {
             <Cabecalho />
             <div className='d-flex mt-3'>
                 <Menu />
-                <div className="container-fluid">
-                        <div>
-                            <ToastContainer />
-                        </div>                        
+                <div className="container-fluid">                       
                         {
                             loading
                             ?

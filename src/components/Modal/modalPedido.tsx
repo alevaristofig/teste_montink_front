@@ -52,7 +52,7 @@ const ModalPedido = ({id}: Props): ReactElement => {
         const dataFormatadaMysql = `${ano}-${mes}-${dia} ${hora}`;
 
         let dados = {
-            "id_user": 1,
+            "id_user": sessionStorage.getItem('token'),
             "produto_id": id,
             "nome": nome,
             "quantidade": quantidade,

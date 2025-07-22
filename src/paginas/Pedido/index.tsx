@@ -1,7 +1,6 @@
 import { ReactElement, useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
 
 import { listar } from "../../redux/pedido/slice";
 import { atualizarStatus } from "../../redux/pedido/slice";
@@ -13,15 +12,12 @@ import Form  from 'react-bootstrap/Form';
 
 import Cabecalho from "../../components/Cabecalho";
 import Menu from "../../components/Menu";
-import ModalPedido from "../../components/Modal/modalPedido";
 
 const Pedido = (): ReactElement => {
 
     const dispatch = useDispatch();
     const { loading, pedidos } = useSelector((state: RootState) => state.pedido);
     const navigate = useNavigate(); 
-
-    const [id,setId] = useState<number>();
 
     useEffect(() => {
         if(sessionStorage.getItem('token') === null) {            
@@ -55,15 +51,11 @@ const Pedido = (): ReactElement => {
     }
 
     return (
-        <>
-            <ModalPedido id={id}/>
+        <>            
             <Cabecalho />
             <div className='d-flex mt-3'>
                 <Menu />
                 <div className="container-fluid">
-                        <div>
-                            <ToastContainer />
-                        </div>
                         {
                             loading
                             ?
@@ -103,7 +95,7 @@ const Pedido = (): ReactElement => {
                                                             }
                                                         </td> 
                                                         <td>{p['quantidade']}</td>
-                                                        <td>{p['valor_total']}</td> 
+                                                        <td>{p['valor_total'].toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td> 
                                                         <td>{formatarData(p['created_at'])}</td>  
                                                         <td>
                                                             <Form.Select

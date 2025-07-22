@@ -2,7 +2,6 @@
 import { ReactElement, useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
 
 import { retirarItem, listarCarrinho } from "../../redux/carrinho/slice";
 
@@ -61,9 +60,6 @@ const Carrinho = (): ReactElement => {
             <div className='d-flex mt-3'>
                 <Menu />
                 <div className="container-fluid">
-                        <div>
-                            <ToastContainer />
-                        </div>
                         <div className='me-2 float-start'>
                             <Button href='/confirmarpedido' className='me-2 mb-4 float-start'>Revisar Compra</Button>
                         </div>

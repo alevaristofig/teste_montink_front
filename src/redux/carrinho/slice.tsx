@@ -26,7 +26,7 @@ export const carrinhoSlice = createSlice({
         },
         retirarItemSucesso: (state) => {
             state.loading = false;  
-            toast.success("Produto retirado do carrinho com Sucesso!");          
+            toast.success("Produto(s) retirado(s) do carrinho com Sucesso!");          
         },
         retirarItemErro: (state,action) => {
             state.loading = false;  

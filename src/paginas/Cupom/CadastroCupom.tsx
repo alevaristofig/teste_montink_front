@@ -1,7 +1,6 @@
 import { ReactElement, useState, useEffect, FormEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
 
 import { salvar } from "../../redux/cupom/slice";
 
@@ -51,9 +50,6 @@ const CadastroCupom = (): ReactElement => {
             <div className='d-flex mt-3'>
                 <Menu />
                 <div className="container-fluid">
-                    <div>
-                        <ToastContainer />
-                    </div>
                     <Form onSubmit={salvarCupom}>
                         <Card>
                             <Card.Body>

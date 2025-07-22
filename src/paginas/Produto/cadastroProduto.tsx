@@ -1,7 +1,6 @@
 import { ReactElement, useState, FormEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
 import CurrencyInput from "react-currency-input-field";
 
 import { salvar } from "../../redux/produto/slice";
@@ -58,9 +57,6 @@ const CadastroProduto = (): ReactElement => {
             <div className='d-flex mt-3'>
                 <Menu />
                 <div className="container-fluid">
-                    <div>
-                        <ToastContainer />
-                    </div>
                     <Form onSubmit={salvarProduto}>
                         <Card>
                             <Card.Body>

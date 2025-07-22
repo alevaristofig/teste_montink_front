@@ -53,7 +53,7 @@ const EditarProduto = (): ReactElement => {
         dispatch(atualizar({
             'id': id,
             'nome': nome,
-            'preco': preco.replace(',','.'),
+            'preco': preco.replace(".", "").replace(",", "."),
             'variacoes': variacoes,
             'quantidade': quantidade
         }));
