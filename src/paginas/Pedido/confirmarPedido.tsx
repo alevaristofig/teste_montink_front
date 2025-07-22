@@ -157,9 +157,9 @@ const ConfirmarPedido = (): ReactElement => {
             let divTotal = document.getElementById("divTotal");
             //let total = divTotal?.innerHTML; 
 
-            /*if (divTotal) {
-                divTotal.innerHTML = `${valorTotal}`;
-            }*/
+            if (divTotal) {
+                divTotal.innerHTML = somarValores(produtos).toString();
+            }
 
             setDesconto(0);
 
@@ -217,12 +217,12 @@ const ConfirmarPedido = (): ReactElement => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    produtos.map((c,i) => 
+                                                    produtos.map((c: any,i: number) => 
                                                     (
                                                         <tr key={i}>
                                                             <td>{c['nome']}</td>
                                                             <td>{c['quantidade']}</td>
-                                                            <td>{c['valor_unitario']}</td>  
+                                                            <td>{c['valor_unitario'].toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td>  
                                                             <td>{c['status']}</td>                                                                                                                    
                                                             <td>{formatarData(c['data'])}</td>                                                                                
                                                         </tr>                                                   
