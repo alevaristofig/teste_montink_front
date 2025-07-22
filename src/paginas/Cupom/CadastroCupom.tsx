@@ -88,7 +88,7 @@ const CadastroCupom = (): ReactElement => {
                                         </Col>
                                         <Col xs={10}>
                                             <Form.Control 
-                                                type='text' 
+                                                type='date' 
                                                 onChange={(e) => setValidade(e.target.value)}
                                                 value={validade}
                                                 required

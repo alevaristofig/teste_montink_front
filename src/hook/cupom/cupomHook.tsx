@@ -4,9 +4,9 @@ const useCupom = () => {
 
     const buscarCupom = async(id: number) => {
         let response = axios.get(`http://localhost:8000/api/erp_gerenciamento/cupom/${id}`,{
-                            /*headers: {
-                                "Authorization": `Bearer ${token}`,                
-                            }*/
+                            headers: {
+                                "Authorization": `Bearer ${sessionStorage.getItem('token')}`                  
+                            }
                         })
                         .then((response) => {
                             return response.data;

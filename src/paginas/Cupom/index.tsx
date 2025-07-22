@@ -44,6 +44,14 @@ const Cupom = (): ReactElement => {
         }, 7000);
     } 
 
+    const formatarData = (data: string) => {
+        const dataFormatada = new Date(data);
+
+        const dataExibicao = dataFormatada.toLocaleString("pt-BR");
+
+        return dataExibicao.substring(0,10);
+    }
+
     return (
         <>
             <Cabecalho />
@@ -86,7 +94,7 @@ const Cupom = (): ReactElement => {
                                                     <tr key={c['id']}>
                                                         <td>{c['nome']}</td>
                                                         <td>{c['desconto']}</td>  
-                                                        <td>{c['validade']}</td>                                                                                                                    
+                                                        <td>{formatarData(c['validade'])}</td>                                                                                                                    
                                                         <td>
                                                             <Link to={`/editarcupom/${c['id']}`} 
                                                                 className="btn btn-info float-start me-1 text-white"
