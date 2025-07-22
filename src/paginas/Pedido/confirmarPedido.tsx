@@ -124,7 +124,7 @@ const ConfirmarPedido = (): ReactElement => {
     const somarValores = (dados: TProduto[]) => {
         let total = dados.reduce((total: number, item:TProduto) => total + Number(item.valor_unitario) * Number(item.quantidade), 0);
 
-        return total;
+        return total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
     }
 
     const calcularFrete = (dados: TProduto[]) => {
@@ -154,25 +154,29 @@ const ConfirmarPedido = (): ReactElement => {
         let dataValidade = new Date(cupons[indice]['validade']).getTime();
 
         if(dataValidade <= dataAtual) {
-            let divTotal = document.getElementById("divTotal");
-            //let total = divTotal?.innerHTML; 
+            let divTotal = document.getElementById("divTotal");            
 
             if (divTotal) {
-                divTotal.innerHTML = somarValores(produtos).toString();
+                let valor = somarValores(produtos).toString();
+                
+                divTotal.innerHTML = valor;
             }
 
             setDesconto(0);
 
             toast.info("Desconto não aplicado, cupom expirado");
         } else {
-            let divTotal = document.getElementById("divTotal");
-            let total = Number(divTotal?.innerHTML);            
+            let divTotal = document.getElementById("divTotal");            
+            let valorAux = divTotal?.innerHTML.replace('R$&nbsp;','').replace(".", "").replace(",", ".");                                  
+            let total = Number(valorAux);     
             let porcentagem = cupons[indice]['desconto'] / 100;
             let desconto = (total * porcentagem);
             let totalDesconto = total - desconto;
 
            if (divTotal) {
-                divTotal.innerHTML = `${total} - ${desconto} = ${totalDesconto}`;
+                divTotal.innerHTML = `${total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})} 
+                    - ${desconto.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})} 
+                    = ${totalDesconto.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}`;
            }
 
            setDesconto(cupons[indice]['desconto']);
@@ -352,7 +356,7 @@ const ConfirmarPedido = (): ReactElement => {
                                                                 <Form.Label>Frete:</Form.Label>                                             
                                                             </Col> 
                                                             <Col id="divFrete" xs={1} className="float-start">
-                                                                {calcularFrete(produtos)}
+                                                                {calcularFrete(produtos).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                                                             </Col>
                                                             <Col xs={1} className="float-start">
                                                                 <Form.Label>Cupom:</Form.Label>                                             
