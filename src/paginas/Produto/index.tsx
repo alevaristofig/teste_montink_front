@@ -119,7 +119,7 @@ const Produto = (): ReactElement => {
                                                 (
                                                     <tr key={p['id']}>
                                                         <td>{p['nome']}</td>
-                                                        <td>{p['preco']}</td>  
+                                                        <td>{p['preco'].toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td>  
                                                         <td>{p['variacoes']}</td>
                                                         <td>{p['estoques']['quantidade']}</td>        
                                                         <td>{

@@ -92,7 +92,7 @@ const ConfirmarPedido = (): ReactElement => {
         }
 
         let dados = {
-            'id_usuario': 1,
+            'id_usuario': sessionStorage.getItem('token'),
             'produtos': produtoInsert,
             'valor_total': subTotal,
             'quantidade': quantidade,

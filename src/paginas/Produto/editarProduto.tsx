@@ -1,7 +1,7 @@
 import { ReactElement, useState, FormEvent, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { ToastContainer } from 'react-toastify';
+import CurrencyInput from "react-currency-input-field";
 
 import { atualizar } from "../../redux/produto/slice";
 
@@ -25,7 +25,7 @@ const EditarProduto = (): ReactElement => {
     const { buscarProduto } = useProduto();
 
     const [nome,setNome] = useState<string>('');
-    const [preco,setPreco] = useState<number>(0);
+    const [preco,setPreco] = useState<string>('');
     const [variacoes,setVariacoes] = useState<string>('');
     const [quantidade,setQuantidade] = useState<number>(0);
 
@@ -53,13 +53,13 @@ const EditarProduto = (): ReactElement => {
         dispatch(atualizar({
             'id': id,
             'nome': nome,
-            'preco': preco,
+            'preco': preco.replace(',','.'),
             'variacoes': variacoes,
             'quantidade': quantidade
         }));
 
         setNome('');
-        setPreco(0);
+        setPreco('');
         setVariacoes('');
         setQuantidade(0);
 
@@ -73,9 +73,6 @@ const EditarProduto = (): ReactElement => {
             <div className='d-flex mt-3'>
                 <Menu />
                 <div className="container-fluid">
-                    <div>
-                        <ToastContainer />
-                    </div>
                     <Form onSubmit={editarProduto}>
                         <Card>
                             <Card.Body>
@@ -97,12 +94,17 @@ const EditarProduto = (): ReactElement => {
                                              <Form.Label>Preço*:</Form.Label>                                             
                                         </Col>
                                         <Col xs={10}>
-                                            <Form.Control 
-                                                type='text' 
-                                                onChange={(e) => setPreco(Number(e.target.value))}
+                                            <CurrencyInput 
+                                                name="salario-input"
+                                                className='form-control'                                                   
                                                 value={preco}
+                                                intlConfig={{ locale: 'pt-BR', currency: 'BRL' }} 
+                                                onValueChange={(event: any, originalValue, maskedValue) => {                                                                                                               
+                                                    setPreco(event);
+                                                    }}                                                    
                                                 required
-                                            ></Form.Control></Col>
+                                            />   
+                                        </Col>
                                     </Row>
                                     <Row className="mb-4">
                                         <Col xs={1}>

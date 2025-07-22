@@ -2,6 +2,7 @@ import { ReactElement, useState, FormEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
+import CurrencyInput from "react-currency-input-field";
 
 import { salvar } from "../../redux/produto/slice";
 
@@ -20,7 +21,7 @@ const CadastroProduto = (): ReactElement => {
     const navigate = useNavigate();   
 
     const [nome,setNome] = useState<string>('');
-    const [preco,setPreco] = useState<number>(0);
+    const [preco,setPreco] = useState<string>('');
     const [variacoes,setVariacoes] = useState<string>('');
     const [quantidade,setQuantidade] = useState<number>(0);
 
@@ -35,7 +36,7 @@ const CadastroProduto = (): ReactElement => {
 
         let dados = {
             'nome': nome,
-            'preco': preco,
+            'preco': preco.replace(',','.'),
             'variacoes': variacoes,
             'estoque': {
                 'quantidade': quantidade
@@ -45,7 +46,7 @@ const CadastroProduto = (): ReactElement => {
         dispatch(salvar(dados));
 
         setNome('');
-        setPreco(0);
+        setPreco('');
         setVariacoes('');
         setQuantidade(0);
         
@@ -83,12 +84,17 @@ const CadastroProduto = (): ReactElement => {
                                              <Form.Label>Preço*:</Form.Label>                                             
                                         </Col>
                                         <Col xs={10}>
-                                            <Form.Control 
-                                                type='text' 
-                                                onChange={(e) => setPreco(Number(e.target.value))}
+                                            <CurrencyInput 
+                                                name="salario-input"
+                                                className='form-control'                                                   
                                                 value={preco}
+                                                intlConfig={{ locale: 'pt-BR', currency: 'BRL' }} 
+                                                onValueChange={(event: any, originalValue, maskedValue) => {                                                                                                               
+                                                    setPreco(event);
+                                                    }}                                                    
                                                 required
-                                            ></Form.Control></Col>
+                                            />  
+                                        </Col>
                                     </Row>
                                     <Row className="mb-4">
                                         <Col xs={1}>

@@ -28,8 +28,8 @@ const Login = (): ReactElement => {
 
         axios.post(`http://localhost:8000/api/erp_gerenciamento/autenticacao`,dados)		
           .then((response) => {                                			 
-			 sessionStorage.setItem('token',response.data.original.token);
-			 sessionStorage.setItem('id',response.data.original.id);
+			 sessionStorage.setItem('token',response.data.token);
+			 sessionStorage.setItem('id',response.data.id);
 
 			 navigate('/produto', {replace: true});
           })
