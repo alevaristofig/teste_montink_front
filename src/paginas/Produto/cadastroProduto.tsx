@@ -1,5 +1,6 @@
-import { ReactElement, useState, FormEvent } from "react";
+import { ReactElement, useState, FormEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 
 import { salvar } from "../../redux/produto/slice";
@@ -16,11 +17,18 @@ import Menu from "../../components/Menu";
 const CadastroProduto = (): ReactElement => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();   
 
     const [nome,setNome] = useState<string>('');
     const [preco,setPreco] = useState<number>(0);
     const [variacoes,setVariacoes] = useState<string>('');
     const [quantidade,setQuantidade] = useState<number>(0);
+
+    useEffect(() => {
+        if(sessionStorage.getItem('token') === null) {            
+            navigate('/login');
+        } 
+    },[]);
 
     const salvarProduto = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

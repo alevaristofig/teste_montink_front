@@ -13,9 +13,9 @@ import axios, { AxiosResponse } from 'axios';
 function* listarCarrinho(): Generator<any, void, AxiosResponse<ICarrinho[]>> {
     try {               
             let response = yield call(axios.get,`http://localhost:8000/api/erp_gerenciamento/carrinho`,{
-            /* headers: {
-                    "Authorization": `Bearer ${token_url.token}`
-                }*/
+             headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                }
             });    
                  
             yield put(listarCarrinhoSucesso(response.data));
@@ -27,9 +27,9 @@ function* listarCarrinho(): Generator<any, void, AxiosResponse<ICarrinho[]>> {
 function* adicionarCarrinho(action: AnyAction) {
     try {        
             yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/carrinho`,action.payload,{
-            /* headers: {
-                    "Authorization": `Bearer ${token_url.token}`
-                }*/
+             headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                }
             });
 
             yield put(adicionarCarrinhoSucesso());
@@ -42,9 +42,9 @@ function* adicionarCarrinho(action: AnyAction) {
 function* retirarItem(action: AnyAction): Generator<any, void, AxiosResponse<ICarrinhoItem[]>>  {
   try {   
         yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/carrinhoitem`,action.payload,{
-           /* headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(retirarItemSucesso());
@@ -56,9 +56,9 @@ function* retirarItem(action: AnyAction): Generator<any, void, AxiosResponse<ICa
 function* removerCarrinho()  {
   try {   
         yield call(axios.delete,`http://localhost:8000/api/erp_gerenciamento/carrinho`,{
-           /* headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(removerCarrinhoSucesso());

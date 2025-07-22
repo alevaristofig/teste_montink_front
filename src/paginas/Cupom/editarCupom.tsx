@@ -29,8 +29,11 @@ const EditarCupom = (): ReactElement => {
 
 
     useEffect(() => {
+        if(sessionStorage.getItem('token') === null) {            
+            navigate('/login');
+        } 
         
-         async function buscarDados() {
+        async function buscarDados() {
             let response = await buscarCupom(Number(id));
 
             setNome(response.nome);

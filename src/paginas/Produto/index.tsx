@@ -1,5 +1,5 @@
 import { ReactElement, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
@@ -24,6 +24,7 @@ const Produto = (): ReactElement => {
 
     const dispatch = useDispatch();
     const { loading, produtos } = useSelector((state: RootState) => state.produto);
+    const navigate = useNavigate();
 
     const [id,setId] = useState<number>();
 
@@ -32,7 +33,11 @@ const Produto = (): ReactElement => {
     const IconeCarrinho = FcAddRow as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
     useEffect(() => {
-         dispatch(listar());
+        if(sessionStorage.getItem('token') === null) {            
+            navigate('/login');
+        } 
+
+        dispatch(listar());
     },[]);
 
     const removerProduto = (id: number) => {

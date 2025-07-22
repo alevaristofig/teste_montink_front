@@ -55,8 +55,12 @@ const ConfirmarPedido = (): ReactElement => {
     const [desconto,setDesconto] = useState<number>();
     
     useEffect(() => {
-         dispatch(listarCarrinho());
-         dispatch(listar());
+        if(sessionStorage.getItem('token') === null) {            
+            navigate('/login');
+        } 
+
+        dispatch(listarCarrinho());
+        dispatch(listar());
     },[]);
 
     const confirmarPedido = async(e: FormEvent<HTMLFormElement>) => {

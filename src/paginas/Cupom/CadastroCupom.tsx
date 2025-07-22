@@ -1,5 +1,6 @@
-import { ReactElement, useState, FormEvent } from "react";
+import { ReactElement, useState, useEffect, FormEvent } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 
 import { salvar } from "../../redux/cupom/slice";
@@ -16,10 +17,17 @@ import Menu from "../../components/Menu";
 const CadastroCupom = (): ReactElement => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate(); 
 
     const [nome,setNome] = useState<string>('');
     const [desconto,setDesconto] = useState<number>(0);
     const [validade,setValidade] = useState<string>('');
+
+    useEffect(() => {
+        if(sessionStorage.getItem('token') === null) {            
+            navigate('/login');
+        } 
+    },[]);
 
     const salvarCupom = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

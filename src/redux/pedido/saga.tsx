@@ -13,9 +13,9 @@ function* listar(): Generator<any, void, AxiosResponse<IPedido[]>>  {
     try {
 
          let response = yield call(axios.get,`http://localhost:8000/api/erp_gerenciamento/pedido`,{
-            /*headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(listarSucesso(response.data));
@@ -27,9 +27,9 @@ function* listar(): Generator<any, void, AxiosResponse<IPedido[]>>  {
 function* confirmar(action: AnyAction): Generator<any, void, AxiosResponse<IPedido[]>>  {
   try {   
      yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/pedido`,action.payload,{
-           /* headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(confirmarSucesso());
@@ -47,9 +47,9 @@ function* atualizarStatus(action: AnyAction): Generator<any, void, AxiosResponse
         }        
 
         yield call(axios.patch,`http://localhost:8000/api/erp_gerenciamento/pedido/${action.payload.id}`,dados,{
-           /* headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
        });
 
         yield put(atualizarStatusSucesso());

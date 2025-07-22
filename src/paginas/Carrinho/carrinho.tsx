@@ -1,6 +1,7 @@
 
 import { ReactElement, useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 
 import { retirarItem, listarCarrinho } from "../../redux/carrinho/slice";
@@ -18,13 +19,18 @@ import Menu from "../../components/Menu";
 const Carrinho = (): ReactElement => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();  
 
      const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
     const { loading, produtos } = useSelector((state: RootState) => state.carrinho);
 
     useEffect(() => {
-         dispatch(listarCarrinho());
+        if(sessionStorage.getItem('token') === null) {            
+            navigate('/login');
+        } 
+
+        dispatch(listarCarrinho());
     },[]);
 
     const removerProduto = (produto_id: number, data: string, nome: string) => {

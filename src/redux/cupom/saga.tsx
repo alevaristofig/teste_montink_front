@@ -13,9 +13,9 @@ function* listar(): Generator<any, void, AxiosResponse<ICupom[]>>  {
     try {
 
          let response = yield call(axios.get,`http://localhost:8000/api/erp_gerenciamento/cupom`,{
-            /*headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(listarSucesso(response.data));
@@ -27,9 +27,9 @@ function* listar(): Generator<any, void, AxiosResponse<ICupom[]>>  {
 function* salvar(action: AnyAction): Generator<any, void, AxiosResponse<ICupom[]>>  {
   try {   
         yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/cupom`,action.payload,{
-           /* headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(salvarSucesso());
@@ -48,9 +48,9 @@ function* atualizar(action: AnyAction): Generator<any, void, AxiosResponse<ICupo
         }        
 
         yield call(axios.put,`http://localhost:8000/api/erp_gerenciamento/cupom/${action.payload.id}`,dados,{
-           /* headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
        });
 
         yield put(atualizarSucesso());
@@ -63,9 +63,9 @@ function* atualizar(action: AnyAction): Generator<any, void, AxiosResponse<ICupo
 function* deletar(action: AnyAction): Generator<any, void, AxiosResponse<ICupom[]>>  {
   try {     
         yield call(axios.delete,`http://localhost:8000/api/erp_gerenciamento/cupom/${action.payload.id}`,{
-           /* headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(deletarSucesso());

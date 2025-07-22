@@ -13,9 +13,9 @@ function* listar(): Generator<any, void, AxiosResponse<IProduto[]>>  {
     try {
 
          let response = yield call(axios.get,`http://localhost:8000/api/erp_gerenciamento/produto`,{
-            /*headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(listarSucesso(response.data));
@@ -27,9 +27,9 @@ function* listar(): Generator<any, void, AxiosResponse<IProduto[]>>  {
 function* salvar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto[]>>  {
   try {   
      yield call(axios.post,`http://localhost:8000/api/erp_gerenciamento/produto`,action.payload,{
-           /* headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(salvarSucesso());
@@ -51,9 +51,9 @@ function* atualizar(action: AnyAction): Generator<any, void, AxiosResponse<IProd
         }
 
         yield call(axios.put,`http://localhost:8000/api/erp_gerenciamento/produto/${action.payload.id}`,dados,{
-           /* headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(atualizarSucesso());
@@ -66,9 +66,9 @@ function* atualizar(action: AnyAction): Generator<any, void, AxiosResponse<IProd
 function* deletar(action: AnyAction): Generator<any, void, AxiosResponse<IProduto[]>>  {
   try {     
         yield call(axios.delete,`http://localhost:8000/api/erp_gerenciamento/produto/${action.payload.id}`,{
-           /* headers: {
-                "Authorization": `Bearer ${token_url.token}`
-            }*/
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+            }
         });
 
         yield put(deletarSucesso());

@@ -19,7 +19,8 @@ import Menu from "../../components/Menu";
 const EditarProduto = (): ReactElement => {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const navigate = useNavigate();     
+
     const { id } = useParams<string>();
     const { buscarProduto } = useProduto();
 
@@ -29,6 +30,10 @@ const EditarProduto = (): ReactElement => {
     const [quantidade,setQuantidade] = useState<number>(0);
 
     useEffect(() => {
+
+        if(sessionStorage.getItem('token') === null) {            
+            navigate('/login');
+        } 
         
          async function buscarDados() {
             let response = await buscarProduto(Number(id));

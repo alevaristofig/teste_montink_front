@@ -1,5 +1,5 @@
 import { ReactElement, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
@@ -21,12 +21,17 @@ const Cupom = (): ReactElement => {
 
     const dispatch = useDispatch();
     const { loading, cupons } = useSelector((state: RootState) => state.cupom);
+    const navigate = useNavigate();
 
     const IconeEditar = PiNotePencilLight as unknown as React.FC<React.SVGProps<SVGSVGElement>>;  
     const IconeRemover = IoTrashBinOutline as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
     useEffect(() => {
-         dispatch(listar());
+        if(sessionStorage.getItem('token') === null) {            
+            navigate('/login');
+        } 
+
+        dispatch(listar());
     },[]);
 
     const removerCupom = (id: number) => {

@@ -1,5 +1,6 @@
 import { ReactElement, useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 
 import { listar } from "../../redux/pedido/slice";
@@ -18,11 +19,16 @@ const Pedido = (): ReactElement => {
 
     const dispatch = useDispatch();
     const { loading, pedidos } = useSelector((state: RootState) => state.pedido);
+    const navigate = useNavigate(); 
 
     const [id,setId] = useState<number>();
 
     useEffect(() => {
-         dispatch(listar());
+        if(sessionStorage.getItem('token') === null) {            
+            navigate('/login');
+        } 
+
+        dispatch(listar());
     },[]);
 
     const formatarData = (data: string) => {
