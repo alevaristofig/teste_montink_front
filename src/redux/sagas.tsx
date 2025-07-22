@@ -4,7 +4,6 @@ import produto from './produto/saga';
 import cupom from './cupom/saga';
 import pedido from './pedido/saga';
 import carrinho from './carrinho/saga';
-import autenticacao from './autenticacao/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -12,6 +11,5 @@ export default function* rootSaga() {
         cupom,
         pedido,
         carrinho,
-        autenticacao
     ]);
 }

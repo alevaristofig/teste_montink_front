@@ -1,6 +1,7 @@
 import { ReactElement, useState, FormEvent } from "react";
-import { useDispatch } from "react-redux";
-import { ToastContainer } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import axios from "axios";
 
 import Row  from 'react-bootstrap/Row';
 import Col  from 'react-bootstrap/Col';
@@ -12,12 +13,31 @@ import Cabecalho from "../../components/Cabecalho";
 
 const Login = (): ReactElement => {
 
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [email,setEmail] = useState<string>('');
     const [password,setPassword] = useState<string>('');
 
-    const logar = (e: FormEvent<HTMLFormElement>) => {}
+    const logar = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        let dados = {
+			'email': email,
+			'password': password
+		}
+
+        axios.post(`http://localhost:8000/api/erp_gerenciamento/autenticacao`,dados)		
+          .then((response) => {                                			 
+			 sessionStorage.setItem('token',response.data.original.token);
+			 sessionStorage.setItem('id',response.data.original.id);
+
+			 navigate('/produto', {replace: true});
+          })
+          .catch((error) => {
+              toast.error('Email/Senha incorretos');  
+			  console.log(error)           
+          }); 
+    }
 
     return(
         <>
