@@ -11,8 +11,12 @@ const Cabecalho = (): ReactElement => {
     const navigate = useNavigate();
 
     const logout = () => {
-        axios.get(`http://localhost:8000/api/erp_gerenciamento/logout`)         
-          .then(() => {                                			 
+        axios.get(`http://localhost:8000/api/erp_gerenciamento/logout`,{
+            headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`                  
+                     }
+            })         
+            .then(() => {                                			 
 			 sessionStorage.removeItem('token');
 			 sessionStorage.removeItem('id');
 
