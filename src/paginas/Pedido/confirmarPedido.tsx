@@ -75,9 +75,10 @@ const ConfirmarPedido = (): ReactElement => {
 
         produtoInsert = JSON.stringify(produtosComprados);
         let divTotal = document.getElementById("divTotal");
-        let subTotalAux = divTotal?.innerHTML;
+        let subTotalAux = divTotal?.innerHTML.replace('R$&nbsp;','');          
         subTotalAux = subTotalAux?.substring(subTotalAux.indexOf(" = "),subTotalAux.length);
-        let subTotal = Number(subTotalAux?.replace('=',''));
+        subTotalAux = subTotalAux?.replace('R$&nbsp;','').replace('=','');        
+        let subTotal = Number(subTotalAux?.replace(".", "").replace(",", "."));
 
         let divQuantidade = document.getElementById("divQuantidade");
         let quantidade = Number(divQuantidade?.innerHTML);
@@ -91,7 +92,7 @@ const ConfirmarPedido = (): ReactElement => {
         }
 
         let dados = {
-            'id_usuario': sessionStorage.getItem('token'),
+            'id_usuario': sessionStorage.getItem('id'),
             'produtos': produtoInsert,
             'valor_total': subTotal,
             'quantidade': quantidade,
@@ -102,7 +103,6 @@ const ConfirmarPedido = (): ReactElement => {
         }
 
         dispatch(confirmar(dados));
-        dispatch(removerCarrinho());
 
         navigate('/pedido', {replace: true});
         
